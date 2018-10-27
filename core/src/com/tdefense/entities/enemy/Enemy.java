@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.tdefense.entities.Entity;
 
 public class Enemy extends Entity {
-    public Enemy(Texture texture, Sprite sprite, Vector2 positon) {
-        super(texture, sprite, positon);
+    public Enemy(Texture texture) {
+        super(texture);
     }
 }
