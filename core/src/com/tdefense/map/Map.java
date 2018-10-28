@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tdefense.Constants;
 import com.tdefense.Drawable;
-import com.tdefense.map.tile.tiles.Tile;
+import com.tdefense.map.tile.Tile;
 
 public class Map implements Drawable {
     private TextureAtlas tileAtlas;
@@ -13,16 +13,24 @@ public class Map implements Drawable {
 
     private float mapSizeX;
     private float mapSizeY;
-
     private int mapCoordinates[][];
+
+    private int pathStartX;
+    private int pathStartY;
+    private int pathEndX;
+    private int pathEndY;
 
     public Map(TextureAtlas tileAtlas) {
         this.tileAtlas = tileAtlas;
         grassTile = new Tile(this.tileAtlas.findRegion("grass"));
         dirtTile = new Tile(this.tileAtlas.findRegion("dirt"));
-
         mapSizeX = 32 * Constants.MAX_TILE_X;
         mapSizeY = 32 * Constants.MAX_TILE_Y;
+
+        pathStartX = 5;
+        pathStartY = Constants.MAX_TILE_Y - 1;
+        pathEndX = 5;
+        pathEndY = 1;
     }
 
 //    private void fillMapCoordinates() {
@@ -38,19 +46,20 @@ public class Map implements Drawable {
     public void draw(Batch batch) {
         for (int x = 0; x < Constants.MAX_TILE_X; x++) {
             for (int y = 0; y < Constants.MAX_TILE_Y; y++) {
-//                if (x == 0 && y == 0) {
-//                    batch.draw(grassTile.getTexture(), 0, 0);
-//                }
                 batch.draw(grassTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE);
                 if (x == 5) {
                     batch.draw(dirtTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE);
-                    // TODO set enemy starting point here
                 }
             }
         }
     }
 
-    public void getTileAt(int x, int y) {
+    public Coordinate getPathStartCoordinate() {
+        return new Coordinate(pathStartX, pathStartY);
+    }
+
+    public Coordinate getPathEndCoordinate() {
+        return new Coordinate(pathEndX, pathEndY);
     }
 
     public float getMapSizeX() {
