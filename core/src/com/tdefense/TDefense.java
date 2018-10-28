@@ -5,73 +5,89 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.tdefense.entities.Entity;
-import com.tdefense.entities.player.Player;
+import com.tdefense.entity_system.Entity;
+import com.tdefense.entity_system.enemy.Enemy;
+import com.tdefense.entity_system.player.Player;
 import com.tdefense.map.Map;
-
-import java.util.HashMap;
+import com.tdefense.logging.Logging;
 
 public class TDefense extends Game {
-	// lower level resources
+	// lower level com.tdefense.resource
     private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private AssetManager manager;
+	private Logging logging;
 
 	private Map map;
 	private Entity player;
+	private Entity enemy;
+
+	private float timeSeconds = 1000;
+    private float period = 1f;
+    private boolean isActionFinished;
 
 	@Override
 	public void create () {
+		manager = new AssetManager();
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-        manager = new AssetManager();
+
         loadAssets(true);
+		camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 1.5f);
+		timeSeconds = 0f;
+		period = 1f;
+		isActionFinished = true;
 
         player = new Player(manager.get("player.png", Texture.class));
         map = new Map(manager.get("tile.atlas", TextureAtlas.class));
+        enemy = new Enemy(manager.get("enemy.png", Texture.class));
 
-        camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 1.5f);
-        camera.update();
+        enemy.setPositonX(enemy.getPosX() + Constants.ENEMY_MOV_SPEED);
+        enemy.setPositonY(enemy.getPosY() + Constants.ENEMY_MOV_SPEED);
+
+		camera.update();
+		batch.setProjectionMatrix(camera.combined);
 	}
 
-	private void loadAssets(boolean loadSynchronously) {
-	    manager.load("player.png", Texture.class);
+	/**
+	 *{@link AssetManager} can stop all code execution to load assets synchronously. This ensures you that all assets
+     * have been loaded.
+	 * @param synchronously {@code true}, for synchronous asset load
+	 */
+	private void loadAssets(boolean synchronously) {
 	    manager.load("tile.atlas", TextureAtlas.class);
+		manager.load("player.png", Texture.class);
+		manager.load("enemy.png", Texture.class);
 
-        if (loadSynchronously) {
+        if (synchronously) {
             manager.finishLoading();
         }
     }
 
     private void updateScene() {
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			player.addPosition(0, Constants.PLAYER_MOV_SPEED);
-		}
+		// TODO
+		// player controls logic
+		if (Gdx.input.isKeyPressed(Input.Keys.W)) player.setPositonY(player.getPosY() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
+		if (Gdx.input.isKeyPressed(Input.Keys.S)) player.setPositonY(player.getPosY() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
+		if (Gdx.input.isKeyPressed(Input.Keys.A)) player.setPositonX(player.getPosX() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
+		if (Gdx.input.isKeyPressed(Input.Keys.D)) player.setPositonX(player.getPosX() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
 
-		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			player.subPosition(0, Constants.PLAYER_MOV_SPEED);
+		if (isActionFinished){
+            enemy.setPositonX(enemy.getPosX() + Constants.ENEMY_MOV_SPEED);
 		}
+	}
 
-		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			player.addPosition(Constants.PLAYER_MOV_SPEED, 0);
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			player.subPosition(Constants.PLAYER_MOV_SPEED, 0);
-		}
-    }
-
+	// TODO stworzyć klasę dla klas dziedziczących od Entity
+	// wzorzec projektowy?
     private void drawScene() {
-	    batch.setProjectionMatrix(camera.combined);
-
 		batch.begin();
 		map.draw(batch);
 	    player.draw(batch);
+        if (isActionFinished) {
+            enemy.draw(batch);
+        }
 		batch.end();
     }
 
@@ -81,15 +97,41 @@ public class TDefense extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 
+        timeSeconds += Gdx.graphics.getRawDeltaTime();
+        if (timeSeconds > period) {
+            timeSeconds -= period;
+            isActionFinished = true;
+
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    try { this.wait(1000); }
+                    catch (InterruptedException e) { e.printStackTrace(); }
+                }
+            });
+        } else {
+            isActionFinished = false;
+        }
+
 		updateScene();
 		drawScene();
 	}
-
-
 
 	@Override
 	public void dispose () {
 		batch.dispose();
 		manager.dispose();
+//		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+//			player.setPositonY(player.getPosY() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
+//		}
+//		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+//			player.setPositonY(player.getPosY() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
+//		}
+//		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+//			player.setPositonX(player.getPosX() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
+//		}
+//		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+//			player.setPositonX(player.getPosX() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
+//		}
 	}
 }
