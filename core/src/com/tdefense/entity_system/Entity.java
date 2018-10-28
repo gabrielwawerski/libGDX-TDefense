@@ -10,6 +10,7 @@ public abstract class Entity implements Drawable {
     private Texture texture;
     private Sprite sprite;
     private Vector2 positon;
+    private HealthBar healthBar;
 
     public Entity(Texture texture) {
         this.texture = texture;
@@ -49,15 +50,5 @@ public abstract class Entity implements Drawable {
     public void setPositon(float x, float y) {
         positon.x = x;
         positon.y = y;
-    }
-
-    public void addPosition(float x, float y) {
-        positon.x += x;
-        positon.y += y;
-    }
-
-    public void subPosition(float x, float y) {
-        positon.x -= x;
-        positon.y -= y;
     }
 }
