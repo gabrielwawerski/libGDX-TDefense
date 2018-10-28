@@ -14,124 +14,78 @@ import com.tdefense.map.Map;
 import com.tdefense.logging.Logging;
 
 public class TDefense extends Game {
-	// lower level com.tdefense.resource
+	// lower level resources
     private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private AssetManager manager;
 	private Logging logging;
 
+	// game related resources
 	private Map map;
 	private Entity player;
 	private Entity enemy;
 
-	private float timeSeconds = 1000;
-    private float period = 1f;
-    private boolean isActionFinished;
-
 	@Override
 	public void create () {
 		manager = new AssetManager();
+        loadAssets(true);
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-
-        loadAssets(true);
-		camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 1.5f);
-		timeSeconds = 0f;
-		period = 1f;
-		isActionFinished = true;
-
         player = new Player(manager.get("player.png", Texture.class));
         map = new Map(manager.get("tile.atlas", TextureAtlas.class));
         enemy = new Enemy(manager.get("enemy.png", Texture.class));
 
-        enemy.setPositonX(enemy.getPosX() + Constants.ENEMY_MOV_SPEED);
-        enemy.setPositonY(enemy.getPosY() + Constants.ENEMY_MOV_SPEED);
-
+		camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 1.5f);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
+
+        enemy.setPositon(Constants.TILE_SCALE * (Constants.MAX_TILE_X / 2), Constants.TILE_SCALE * (Constants.MAX_TILE_Y - 1));
 	}
 
-	/**
-	 *{@link AssetManager} can stop all code execution to load assets synchronously. This ensures you that all assets
-     * have been loaded.
-	 * @param synchronously {@code true}, for synchronous asset load
-	 */
-	private void loadAssets(boolean synchronously) {
-	    manager.load("tile.atlas", TextureAtlas.class);
-		manager.load("player.png", Texture.class);
-		manager.load("enemy.png", Texture.class);
-
-        if (synchronously) {
-            manager.finishLoading();
-        }
+    @Override
+    public void render () {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
+        updateScene();
+        drawScene();
     }
 
     private void updateScene() {
-		// TODO
 		// player controls logic
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) player.setPositonY(player.getPosY() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
 		if (Gdx.input.isKeyPressed(Input.Keys.S)) player.setPositonY(player.getPosY() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
 		if (Gdx.input.isKeyPressed(Input.Keys.A)) player.setPositonX(player.getPosX() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
 		if (Gdx.input.isKeyPressed(Input.Keys.D)) player.setPositonX(player.getPosX() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
 
-		if (isActionFinished){
-            enemy.setPositonX(enemy.getPosX() + Constants.ENEMY_MOV_SPEED);
-		}
+		enemy.setPositonY(enemy.getPosY() - (Constants.ENEMY_MOV_SPEED * Gdx.graphics.getDeltaTime()));
 	}
 
-	// TODO stworzyć klasę dla klas dziedziczących od Entity
-	// wzorzec projektowy?
+	// TODO stworzyć klasę dla klas dziedziczących od Entity. Wzorzec projektowy / entity component system?
     private void drawScene() {
-		batch.begin();
+	batch.begin();
 		map.draw(batch);
-	    player.draw(batch);
-        if (isActionFinished) {
-            enemy.draw(batch);
-        }
-		batch.end();
+	    enemy.draw(batch);
+        player.draw(batch);
+	batch.end();
     }
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
+    /**
+     *{@link AssetManager} can stop all code execution to load assets synchronously (on the same thread). This ensures
+     * you that all assets have been loaded.
+     * @param synchronously {@code true}, for synchronous asset load
+     */
+    private void loadAssets(boolean synchronously) {
+        manager.load("tile.atlas", TextureAtlas.class);
+        manager.load("player.png", Texture.class);
+        manager.load("enemy.png", Texture.class);
 
-        timeSeconds += Gdx.graphics.getRawDeltaTime();
-        if (timeSeconds > period) {
-            timeSeconds -= period;
-            isActionFinished = true;
-
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    try { this.wait(1000); }
-                    catch (InterruptedException e) { e.printStackTrace(); }
-                }
-            });
-        } else {
-            isActionFinished = false;
-        }
-
-		updateScene();
-		drawScene();
-	}
+        if (synchronously) { manager.finishLoading(); }
+    }
 
 	@Override
 	public void dispose () {
 		batch.dispose();
 		manager.dispose();
-//		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//			player.setPositonY(player.getPosY() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
-//		}
-//		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//			player.setPositonY(player.getPosY() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
-//		}
-//		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//			player.setPositonX(player.getPosX() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
-//		}
-//		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//			player.setPositonX(player.getPosX() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
-//		}
 	}
 }

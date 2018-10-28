@@ -4,12 +4,14 @@ public class Constants {
     // window size
     public static final int WINDOW_WIDTH = 640;
     public static final int WINDOW_HEIGHT = 480;
-    // map related constants
+    // map related
     public static final int MAX_TILE_X = 11;
     public static final int MAX_TILE_Y = 10;
-    // equals the size of individual tile from atlas
-    public static final int TILE_SCALE = 32;
+    public static final int TILE_SCALE = 32;  // size of every tile from tile atlas
 
     public static final float PLAYER_MOV_SPEED = 100;
-    public static final float ENEMY_MOV_SPEED = 60;
+    public static final float ENEMY_MOV_SPEED = 15;
+
+    /** {@link com.tdefense.logging.logger.GdxWrapperLogger#setLogLevel(int)}  */
+    public static final int LOG_LEVEL = 2;
 }

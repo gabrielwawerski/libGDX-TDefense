@@ -1,4 +1,4 @@
-package com.tdefense.map.tile.tiles;
+package com.tdefense.map.tile;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 

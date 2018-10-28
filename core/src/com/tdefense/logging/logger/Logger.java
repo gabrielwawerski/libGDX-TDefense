@@ -1,4 +1,4 @@
-package com.tdefense.module.logger;
+package com.tdefense.logging.logger;
 
 /**
  *  Tagging interface for loggers

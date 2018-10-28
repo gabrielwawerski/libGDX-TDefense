@@ -1,17 +1,19 @@
 package com.tdefense.logging;
 
-import com.tdefense.module.logger.Logger;
-import com.tdefense.module.logger.GdxWrapperLogger;
+import com.tdefense.logging.logger.Logger;
+import com.tdefense.logging.logger.GdxWrapperLogger;
 
 /**
- * Main logging
+ * Main logging class
  */
-public class Logging implements Logger {
+public class Logging {
     private Logger logger;
-
-    private boolean logFps;
 
     public Logging() {
         logger = new GdxWrapperLogger();
+    }
+
+    public Logger getLogger() {
+        return  logger;
     }
 }
