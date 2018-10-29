@@ -10,10 +10,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tdefense.entity_system.Entity;
 import com.tdefense.entity_system.enemy.Enemy;
 import com.tdefense.entity_system.player.Player;
+import com.tdefense.map.Coordinate;
 import com.tdefense.map.Map;
 import com.tdefense.logging.Logging;
+import com.tdefense.world.WorldRenderer;
+import com.tdefense.world.world_controller.WorldController;
 
 public class TDefense extends Game {
+    private static final String TAG = TDefense.class.getSimpleName();
 	// lower level resources
     private OrthographicCamera camera;
 	private SpriteBatch batch;
@@ -24,6 +28,9 @@ public class TDefense extends Game {
 	private Map map;
 	private Entity player;
 	private Entity enemy;
+
+	private WorldController worldController;
+	private WorldRenderer worldRenderer;
 
 	@Override
 	public void create () {
