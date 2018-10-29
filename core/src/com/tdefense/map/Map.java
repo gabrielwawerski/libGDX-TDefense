@@ -24,32 +24,24 @@ public class Map implements Drawable {
         this.tileAtlas = tileAtlas;
         grassTile = new Tile(this.tileAtlas.findRegion("grass"));
         dirtTile = new Tile(this.tileAtlas.findRegion("dirt"));
-        mapSizeX = 32 * Constants.MAX_TILE_X;
-        mapSizeY = 32 * Constants.MAX_TILE_Y;
+        mapSizeX = Constants.TILE_SCALE * Constants.MAX_TILE_X;
+        mapSizeY = Constants.TILE_SCALE * Constants.MAX_TILE_Y;
 
-        pathStartX = 5;
-        pathStartY = Constants.MAX_TILE_Y - 1;
-        pathEndX = 5;
-        pathEndY = 1;
+        //region TODO temporary, needs implemented path creation, for automated setting of path start and end fields.
+        pathStartX = 5 * Constants.TILE_SCALE;
+            pathStartY = (Constants.MAX_TILE_Y - 1) * Constants.TILE_SCALE;
+            pathEndX = 5 * Constants.TILE_SCALE;
+            pathEndY = 1 * Constants.TILE_SCALE;
+        //endregion
     }
-
-//    private void fillMapCoordinates() {
-//        for (int x = 0; x < mapCoordinates.length; x++) {
-//            for (int y = 0; x < mapCoordinates[0].length; y++) {
-//                mapCoordinates[x] = x + 16;
-//            }
-//        }
-//    }
 
     // TODO figure out setting mapSize x and y
     @Override
     public void draw(Batch batch) {
         for (int x = 0; x < Constants.MAX_TILE_X; x++) {
             for (int y = 0; y < Constants.MAX_TILE_Y; y++) {
-                batch.draw(grassTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE);
-                if (x == 5) {
-                    batch.draw(dirtTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE);
-                }
+                batch.draw(grassTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE);  // grass drawing
+                if (x == 5) { batch.draw(dirtTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE); }  // path drawing
             }
         }
     }

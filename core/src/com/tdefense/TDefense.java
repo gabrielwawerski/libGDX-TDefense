@@ -39,7 +39,8 @@ public class TDefense extends Game {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 
-        enemy.setPositon(Constants.TILE_SCALE * (Constants.MAX_TILE_X / 2), Constants.TILE_SCALE * (Constants.MAX_TILE_Y - 1));
+        Coordinate coordinate = map.getPathStartCoordinate();
+        enemy.setPositon(coordinate.x, coordinate.y);
 	}
 
     @Override

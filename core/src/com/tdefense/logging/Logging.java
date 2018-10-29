@@ -8,7 +8,8 @@ import com.badlogic.gdx.Application;
 import com.tdefense.Constants;
 
 /**
- * Main logging class for the project.<p>
+ * Main logging class for the project. When using in a new class, add {@code public static final String TAG} field
+ * and set it to {@code getSimpleName()} of the class.<p>
  * Wraps GDX's {@link FPSLogger#log}, {@link Application#log(String, String)}, {@link Application#debug(String, String)},
  * {@link Application#error(String, String)}<p>
  * Default logging level is {@link #LOG_ERROR}, which is set in the constructor. To change the logging level, use

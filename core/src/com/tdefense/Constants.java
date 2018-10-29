@@ -1,5 +1,7 @@
 package com.tdefense;
 
+import com.tdefense.logging.Logging;
+
 public class Constants {
     // window size
     public static final int WINDOW_WIDTH = 640;
@@ -12,6 +14,6 @@ public class Constants {
     public static final float PLAYER_MOV_SPEED = 100;
     public static final float ENEMY_MOV_SPEED = 15;
 
-    /** {@link com.tdefense.logging.logger.GdxWrapperLogger#setLogLevel(int)}  */
-    public static final int LOG_LEVEL = 2;
+    /** {@link com.tdefense.logging.Logging#setLogLevel(int)}  */
+    public static final int DEFAULT_LOG_LEVEL = Logging.LOG_ERROR;
 }
