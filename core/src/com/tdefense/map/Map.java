@@ -71,11 +71,29 @@ public class Map {
         }
     }
 
-    public Coordinate getPathStartCoordinate() {
-        return new Coordinate(pathStartX, pathStartY);
+    public void setPathStartCoordinate() {
+        for (int x = 0; x < map.length; x++) {
+            for (int y = 0; y < map[0].length; y++) {
+                if(map[x][y] == 1) {
+                    pathStartX = x;
+                    pathStartY = y;
+                }
+            }
+        }
+    }
+    
+    public void setPathEndCoordinate() {
+        for (int x = map.length; x > 0; x--) {
+            for (int y = map[0].length; y > 0; y-- {
+                if(map[x][y] == 1) {
+                    pathEndX = x;
+                    pathEndY = y;
+                }
+            }
+        }
     }
 
-    public Coordinate getPathEndCoordinate() {
+    public Coordinate setPathEndCoordinate() {
         return new Coordinate(pathEndX, pathEndY);
     }
 
