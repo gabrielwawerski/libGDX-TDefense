@@ -12,7 +12,7 @@ public class Map {
 
     private float mapSizeX;
     private float mapSizeY;
-    private int mapCoordinates[][];
+    private int map[][];
 
     private int pathStartX;
     private int pathStartY;
@@ -32,6 +32,19 @@ public class Map {
             pathEndX = 5 * Constants.TILE_SCALE;
             pathEndY = 1 * Constants.TILE_SCALE;
         //endregion
+        
+        map[][] = new int {
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 }, 
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0, 0, 0, 0 }
+        }
     }
 
     // TODO figure out setting mapSize x and y
@@ -42,6 +55,10 @@ public class Map {
                 if (x == (Constants.MAX_TILE_X - 1) / 2) { batch.draw(dirtTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE); }  // path drawing
             }
         }
+    }
+    
+    public void drawMap(Batch batch) {
+    
     }
 
     public Coordinate getPathStartCoordinate() {
