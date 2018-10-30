@@ -16,8 +16,8 @@ import com.tdefense.tools.Constants;
  * {@link #setLogLevel(int)}. You can also use second constructor to set the logging level, see {@link #Logger(int)}
  * @author mx
  */
-public class Logger {
-    private long startTime;
+public final class Logger {
+    private static long startTime = TimeUtils.nanoTime();
     private static final int FPS_LOGGING_INTERVAL = 1000000000;  // 1,000,000,000ns == one second
 
     /** will mute all log output */
@@ -30,23 +30,6 @@ public class Logger {
     public static final int LOG_DEBUG = 3;
 
     /**
-     * Sets logging level to the default value, which is {@link #LOG_ERROR}.<p>
-     * See also {@link Constants#DEFAULT_LOG_LEVEL} */
-    public Logger() {
-        startTime = TimeUtils.nanoTime();
-        setLogLevel(Constants.DEFAULT_LOG_LEVEL);
-    }
-
-    /**
-     * Use this constructor if you want to set the desired logging level right away.
-     * @param logLevel {@link #LOG_NONE}, {@link #LOG_ERROR}, {@link #LOG_INFO}, {@link #LOG_DEBUG}.
-     */
-    public Logger(int logLevel) {
-        startTime = TimeUtils.nanoTime();
-        setLogLevel(logLevel);
-    }
-
-    /**
      * Log output can be limited to specific level:
      * <table>
      *     <tr><td>{@link #LOG_NONE}</td> <td>mutes all logging</td></tr>
@@ -56,7 +39,7 @@ public class Logger {
      * </table>
      * @param logLevel desired logging level, default is {@code LOG_ERROR}. See also {@link Constants#DEFAULT_LOG_LEVEL}.
      */
-    public void setLogLevel(int logLevel) {
+    public static void setLogLevel(int logLevel) {
         Gdx.app.setLogLevel(logLevel);
     }
 
@@ -65,7 +48,7 @@ public class Logger {
      * @param tag calling class {@code TAG} field
      * @param message descriptive log message
      */
-    public void log(String tag, String message) {
+    public static void log(String tag, String message) {
         Gdx.app.log(tag, message);
     }
 
@@ -74,7 +57,7 @@ public class Logger {
      * @param tag calling class {@code TAG} field
      * @param message descriptive debug message
      */
-    public void debug(String tag, String message) {
+    public static void debug(String tag, String message) {
         Gdx.app.debug(tag, message);
     }
 
@@ -83,7 +66,7 @@ public class Logger {
      * @param tag calling class {@code TAG} field.
      * @param message descriptive error message
      */
-    public void error(String tag, String message) {
+    public static void error(String tag, String message) {
         Gdx.app.error(tag, message);
     }
 
@@ -91,7 +74,7 @@ public class Logger {
      * Logs the current frames per second to the console. See {@link FPSLogger}.
      * @author mzechner
      */
-    public void logFps () {
+    public static void logFps () {
         if (TimeUtils.nanoTime() - startTime > FPS_LOGGING_INTERVAL) {
             Gdx.app.log("FPSLogger", "fps: " + Gdx.graphics.getFramesPerSecond());
             startTime = TimeUtils.nanoTime();
