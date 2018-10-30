@@ -6,6 +6,4 @@ public abstract class PlayerEntity extends Entity {
     public PlayerEntity(Texture texture) {
         super(texture);
     }
-
-    public abstract void create();
 }

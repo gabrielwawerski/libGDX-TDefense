@@ -11,31 +11,15 @@ public abstract class Entity {
     protected Texture texture;
     protected Sprite sprite;
     protected Vector2 positon;
-    protected Vector2 currentPosition;
 
     public Entity(Texture texture) {
         this.texture = texture;
         this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        currentPosition = new Vector2();
     }
 
     public abstract void draw(Batch batch);
 
-    public void stepUp(float deltaTime) {
-        positon.y += Constants.TILE_SCALE * deltaTime;
-    }
-
-    public void stepDown(float deltaTime) {
-        positon.y -= Constants.TILE_SCALE * deltaTime;
-    }
-
-    public void stepLeft(float deltaTime) {
-        positon.x -= Constants.TILE_SCALE * deltaTime;
-    }
-
-    public void stepRight(float deltaTime) {
-        positon.x += Constants.TILE_SCALE * deltaTime;
-    }
+    public abstract void create();
 
     public Texture getTexture() {
         return texture;
@@ -68,8 +52,6 @@ public abstract class Entity {
     public void setPositon(float x, float y) {
         positon.x = x;
         positon.y = y;
-        currentPosition.x = x;
-        currentPosition.y = y;
     }
 
     public void setPosition(Vector2 position) {

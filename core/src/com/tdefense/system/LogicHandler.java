@@ -19,7 +19,7 @@ class LogicHandler {
     // game related resources
     Map map;
     PlayerEntity player;
-    TestEnemy testEnemy;
+    EnemyEntity testEnemy;
 
     private boolean waveStarted = false;
 
@@ -29,10 +29,11 @@ class LogicHandler {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             startWave(deltaTime);
             waveStarted = true;
+            testEnemy.stepDown(deltaTime);
         }
 
         if (waveStarted) {
-                if (testEnemy.isStepCompletedd(map.getPath().getNextStepForBoolean())) {
+                if (testEnemy.isStepCompleted(map.getPath().getNextStepForBoolean())) {
                     if (map.getPath().getNextStepForBoolean() == Step.STEP_UP) {
                         testEnemy.stepUp(deltaTime);
                         map.getPath().stepAcquired();
@@ -46,8 +47,6 @@ class LogicHandler {
                         testEnemy.stepRight(deltaTime);
                         map.getPath().stepAcquired();
                     }
-                    testEnemy.setCurrentPosition();
-                    testEnemy.nextMove(map.getPath().getNextStep(), deltaTime);
             }
         }
 
@@ -75,6 +74,5 @@ class LogicHandler {
     void startWave(float deltaTime) {
         testEnemy.prepareForWave(map.getPathStart().getVector());
         testEnemy.setCurrentPosition();
-        testEnemy.nextMove(map.getPath().getNextStep(), deltaTime);
     }
 }

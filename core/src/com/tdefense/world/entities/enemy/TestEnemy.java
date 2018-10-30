@@ -25,17 +25,4 @@ public class TestEnemy extends EnemyEntity {
         sprite = new Sprite(texture);
         positon = new Vector2();
     }
-
-    public boolean isStepCompletedd(Step step) {
-        if (step.getStepEnum() == StepEnum.STEP_UP) {
-            return currentPosition.y >= currentPosition.y + Constants.TILE_SCALE;
-        } else if (step.getStepEnum() == StepEnum.STEP_DOWN) {
-            return currentPosition.y <= currentPosition.y - Constants.TILE_SCALE;
-        } else if (step.getStepEnum() == StepEnum.STEP_LEFT) {
-            return currentPosition.x <= currentPosition.x - Constants.TILE_SCALE;
-        } else if (step.getStepEnum() == StepEnum.STEP_RIGHT) {
-            return currentPosition.x >= currentPosition.x + Constants.TILE_SCALE;
-        }
-        return false;
-    }
 }
