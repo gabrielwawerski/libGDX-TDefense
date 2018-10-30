@@ -1,12 +1,12 @@
-package com.tdefense.entity_system.player;
+package com.tdefense.world.entities.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.tdefense.entity_system.entity.Entity;
+import com.tdefense.entity_system.entity.PlayerEntity;
 
-public class Player extends Entity {
+public class Player extends PlayerEntity {
     public Player(Texture texture) {
         super(texture);
     }

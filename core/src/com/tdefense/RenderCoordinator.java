@@ -1,19 +1,19 @@
-package com.tdefense.world;
+package com.tdefense;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 
-public class WorldRenderer implements Disposable {
-    private static final String TAG = WorldRenderer.class.getSimpleName();
+public class RenderCoordinator implements Disposable {
+    private static final String TAG = RenderCoordinator.class.getSimpleName();
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
-    private WorldController worldController;
+    private LogicHandler logicHandler;
     
-    public WorldRenderer(WorldController worldController) {
-        this.worldController = worldController;
+    public RenderCoordinator(LogicHandler logicHandler) {
+        this.logicHandler = logicHandler;
     }
     
     private void initialize() {
@@ -21,10 +21,12 @@ public class WorldRenderer implements Disposable {
     }
     
     public void render() {
+        updateScene();
+        drawScene();
     }
 
     private void updateScene() {
-        worldController.update(Gdx.graphics.getDeltaTime());
+        logicHandler.update(Gdx.graphics.getDeltaTime());
     }
 
     private void drawScene() {

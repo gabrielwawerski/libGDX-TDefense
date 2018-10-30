@@ -1,11 +1,11 @@
-package com.tdefense.logging;
+package com.tdefense.tools.logging;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.Application;
-import com.tdefense.Constants;
+import com.tdefense.tools.Constants;
 
 /**
  * Main logging class for the project. When using in a new class, add {@code public static final String TAG} field

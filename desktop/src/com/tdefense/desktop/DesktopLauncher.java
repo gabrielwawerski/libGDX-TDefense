@@ -2,7 +2,7 @@ package com.tdefense.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.tdefense.Constants;
+import com.tdefense.tools.Constants;
 import com.tdefense.TDefense;
 
 public class DesktopLauncher {
