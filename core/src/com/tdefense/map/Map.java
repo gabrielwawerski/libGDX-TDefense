@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tdefense.Constants;
 import com.tdefense.map.tile.Tile;
 
-public class Map implements Drawable {
+public class Map {
     private TextureAtlas tileAtlas;
     private Tile grassTile;
     private Tile dirtTile;
@@ -35,7 +35,6 @@ public class Map implements Drawable {
     }
 
     // TODO figure out setting mapSize x and y
-    @Override
     public void draw(Batch batch) {
         for (int x = 0; x < Constants.MAX_TILE_X; x++) {
             for (int y = 0; y < Constants.MAX_TILE_Y; y++) {

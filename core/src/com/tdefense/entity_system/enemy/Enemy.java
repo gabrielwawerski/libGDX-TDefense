@@ -13,7 +13,7 @@ public class Enemy extends Entity {
 
     @Override
     public void draw(Batch batch) {
-
+        batch.draw(sprite, positon.x, positon.y);
     }
 
     @Override

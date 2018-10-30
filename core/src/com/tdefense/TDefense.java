@@ -14,7 +14,7 @@ import com.tdefense.map.Coordinate;
 import com.tdefense.map.Map;
 import com.tdefense.logging.Logger;
 import com.tdefense.world.WorldRenderer;
-import com.tdefense.world.world_controller.WorldController;
+import com.tdefense.world.WorldController;
 
 public class TDefense extends Game {
     private static final String TAG = TDefense.class.getSimpleName();
@@ -45,6 +45,8 @@ public class TDefense extends Game {
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
 
+		player.create();
+		enemy.create();
         Coordinate coordinate = map.getPathStartCoordinate();
         enemy.setPositon(coordinate.x, coordinate.y);
 
@@ -66,13 +68,14 @@ public class TDefense extends Game {
     }
 
     private void updateScene() {
+	    float deltaTime = Gdx.graphics.getDeltaTime();
 		// player controls logic
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) player.setPositonY(player.getPosY() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
-		if (Gdx.input.isKeyPressed(Input.Keys.S)) player.setPositonY(player.getPosY() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
-		if (Gdx.input.isKeyPressed(Input.Keys.A)) player.setPositonX(player.getPosX() - Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
-		if (Gdx.input.isKeyPressed(Input.Keys.D)) player.setPositonX(player.getPosX() + Constants.PLAYER_MOV_SPEED * Gdx.graphics.getDeltaTime());
+		if (Gdx.input.isKeyPressed(Input.Keys.W)) player.setPositonY(player.getPosY() + Constants.PLAYER_MOV_SPEED * deltaTime);
+		if (Gdx.input.isKeyPressed(Input.Keys.S)) player.setPositonY(player.getPosY() - Constants.PLAYER_MOV_SPEED * deltaTime);
+		if (Gdx.input.isKeyPressed(Input.Keys.A)) player.setPositonX(player.getPosX() - Constants.PLAYER_MOV_SPEED * deltaTime);
+		if (Gdx.input.isKeyPressed(Input.Keys.D)) player.setPositonX(player.getPosX() + Constants.PLAYER_MOV_SPEED * deltaTime);
 
-		enemy.setPositonY(enemy.getPosY() - (Constants.ENEMY_MOV_SPEED * Gdx.graphics.getDeltaTime()));
+		enemy.setPositonY(enemy.getPosY() - (Constants.ENEMY_MOV_SPEED * deltaTime));
 	}
 
 	// TODO stworzyć klasę dla klas dziedziczących od Entity. Wzorzec projektowy / entity component system?
