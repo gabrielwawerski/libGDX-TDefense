@@ -58,7 +58,17 @@ public class Map {
     }
     
     public void drawMap(Batch batch) {
-    
+        for (int x = 0; x < map.length; x++) {
+            for (int y = 0; y < map[0].length; y++) {
+                if(map[x][y] == 0) {
+                    batch.draw(grassTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE);
+                }
+                
+                if(map[x][y] == 1) {
+                    batch.draw(dirtTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE);
+                }
+            }
+        }
     }
 
     public Coordinate getPathStartCoordinate() {
