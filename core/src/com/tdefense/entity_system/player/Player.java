@@ -1,7 +1,7 @@
 package com.tdefense.entity_system.player;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.tdefense.entity_system.Entity;
+import com.tdefense.entity_system.entity.Entity;
 
 public class Player extends Entity {
     public Player(Texture texture) {

@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.tdefense.entity_system.Entity;
+import com.tdefense.entity_system.entity.Entity;
 import com.tdefense.entity_system.enemy.Enemy;
 import com.tdefense.entity_system.player.Player;
 import com.tdefense.map.Coordinate;
 import com.tdefense.map.Map;
-import com.tdefense.logging.Logging;
+import com.tdefense.logging.Logger;
 import com.tdefense.world.WorldRenderer;
 import com.tdefense.world.world_controller.WorldController;
 
@@ -22,7 +22,7 @@ public class TDefense extends Game {
     private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private AssetManager manager;
-	private Logging logging;
+	private Logger logger;
 
 	// game related resources
 	private Map map;
@@ -42,19 +42,25 @@ public class TDefense extends Game {
         map = new Map(manager.get("tile.atlas", TextureAtlas.class));
         enemy = new Enemy(manager.get("enemy.png", Texture.class));
 
-		camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.5f, Gdx.graphics.getHeight() / 1.5f);
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
-		batch.setProjectionMatrix(camera.combined);
 
         Coordinate coordinate = map.getPathStartCoordinate();
         enemy.setPositon(coordinate.x, coordinate.y);
+
+        worldController  = new WorldController();
+        worldRenderer = new WorldRenderer(worldController);
+
 	}
 
     @Override
     public void render () {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        worldController.update(Gdx.graphics.getDeltaTime());
+        Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f, 0xff/255.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
+        batch.setProjectionMatrix(camera.combined);
+
         updateScene();
         drawScene();
     }
@@ -91,9 +97,15 @@ public class TDefense extends Game {
         if (synchronously) { manager.finishLoading(); }
     }
 
-	@Override
+    @Override
+    public void resize(int width, int height) {
+        worldRenderer.resize(width, height);
+    }
+
+    @Override
 	public void dispose () {
 		batch.dispose();
 		manager.dispose();
+		worldRenderer.dispose();
 	}
 }

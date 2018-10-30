@@ -3,7 +3,6 @@ package com.tdefense.map;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tdefense.Constants;
-import com.tdefense.Drawable;
 import com.tdefense.map.tile.Tile;
 
 public class Map implements Drawable {
@@ -41,7 +40,7 @@ public class Map implements Drawable {
         for (int x = 0; x < Constants.MAX_TILE_X; x++) {
             for (int y = 0; y < Constants.MAX_TILE_Y; y++) {
                 batch.draw(grassTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE);  // grass drawing
-                if (x == 5) { batch.draw(dirtTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE); }  // path drawing
+                if (x == (Constants.MAX_TILE_X - 1) / 2) { batch.draw(dirtTile.getTexture(), x * Constants.TILE_SCALE, y * Constants.TILE_SCALE); }  // path drawing
             }
         }
     }

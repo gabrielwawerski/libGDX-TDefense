@@ -1,34 +1,30 @@
-package com.tdefense.entity_system;
+package com.tdefense.entity_system.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.tdefense.Drawable;
+import com.tdefense.entity_system.HealthBar;
 
-public abstract class Entity implements Drawable {
-    private Texture texture;
-    private Sprite sprite;
-    private Vector2 positon;
-    private HealthBar healthBar;
+public abstract class Entity {
+    protected Texture texture;
+    protected Sprite sprite;
+    protected Vector2 positon;
 
     public Entity(Texture texture) {
         this.texture = texture;
-        sprite = new Sprite(texture);
-        positon = new Vector2();
+    }
+
+    public abstract void draw(Batch batch);
+
+    public abstract void create();
+
+    public Texture getTexture() {
+        return texture;
     }
 
     public Sprite getSprite() {
         return sprite;
-    }
-
-    @Override
-    public void draw(Batch batch) {
-        batch.draw(sprite, positon.x, positon.y);
-    }
-
-    public void draw(Batch batch, float x, float y) {
-        batch.draw(sprite, x, y);
     }
 
     public float getPosX() {

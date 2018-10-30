@@ -13,10 +13,10 @@ import com.tdefense.Constants;
  * Wraps GDX's {@link FPSLogger#log}, {@link Application#log(String, String)}, {@link Application#debug(String, String)},
  * {@link Application#error(String, String)}<p>
  * Default logging level is {@link #LOG_ERROR}, which is set in the constructor. To change the logging level, use
- * {@link #setLogLevel(int)}. You can also use second constructor to set the logging level, see {@link #Logging(int)}
+ * {@link #setLogLevel(int)}. You can also use second constructor to set the logging level, see {@link #Logger(int)}
  * @author mx
  */
-public class Logging {
+public class Logger {
     private long startTime;
     private static final int FPS_LOGGING_INTERVAL = 1000000000;  // 1,000,000,000ns == one second
 
@@ -32,7 +32,7 @@ public class Logging {
     /**
      * Sets logging level to the default value, which is {@link #LOG_ERROR}.<p>
      * See also {@link Constants#DEFAULT_LOG_LEVEL} */
-    public Logging() {
+    public Logger() {
         startTime = TimeUtils.nanoTime();
         setLogLevel(Constants.DEFAULT_LOG_LEVEL);
     }
@@ -41,7 +41,7 @@ public class Logging {
      * Use this constructor if you want to set the desired logging level right away.
      * @param logLevel {@link #LOG_NONE}, {@link #LOG_ERROR}, {@link #LOG_INFO}, {@link #LOG_DEBUG}.
      */
-    public Logging(int logLevel) {
+    public Logger(int logLevel) {
         startTime = TimeUtils.nanoTime();
         setLogLevel(logLevel);
     }
