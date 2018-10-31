@@ -1,12 +1,15 @@
-package com.tdefense.world.map.map;
+package com.tdefense.world.map.map_utils;
+
+import com.tdefense.world.map.map.CellType;
 
 public class Cell {
     private CellType cellType;
-    private boolean visited;
     private float posX;
     private float posY;
     private int dataX;
     private int dataY;
+
+    protected boolean visited;
 
     public Cell(CellType cellType, float posX, float posY, int dataX, int dataY) {
         this.cellType = cellType;
@@ -17,16 +20,21 @@ public class Cell {
         this.dataY = dataY;
     }
 
-    public CellType getCellType() {
-        return cellType;
-    }
-
-    public boolean wasVisited() {
-        return visited;
+    protected Cell(int dataX, int dataY) {
+        this.dataX = dataX;
+        this.dataY = dataY;
     }
 
     public void setVisited(boolean visited) {
         this.visited = visited;
+    }
+
+    protected Coord getCell(int x, int y) {
+        return new Coord(dataX, dataY);
+    }
+
+    public CellType getCellType() {
+        return cellType;
     }
 
     public float getX() {
@@ -43,5 +51,21 @@ public class Cell {
 
     public int getDataY() {
         return dataY;
+    }
+
+    protected void setX(float posX) {
+        this.posX = posX;
+    }
+
+    protected void setY(float posY) {
+        this.posY = posY;
+    }
+
+    protected void setDataX(int dataX) {
+        this.dataX = dataX;
+    }
+
+    protected void setDataY(int dataY) {
+        this.dataY = dataY;
     }
 }

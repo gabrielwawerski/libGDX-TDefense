@@ -1,4 +1,4 @@
-package com.tdefense.world.map.waypoint;
+package com.tdefense.world.map.map_utils;
 
 import com.badlogic.gdx.math.Vector2;
 

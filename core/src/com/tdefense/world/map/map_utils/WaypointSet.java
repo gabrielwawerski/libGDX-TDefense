@@ -1,4 +1,4 @@
-package com.tdefense.world.map.waypoint;
+package com.tdefense.world.map.map_utils;
 
 import java.util.ArrayList;
 
@@ -37,6 +37,10 @@ public class WaypointSet {
 
     void add(Waypoint waypoint) {
         waypoints.add(waypoint);
+    }
+
+    void add(Cell cell) {
+        waypoints.add(new Waypoint(cell.getDataX(), cell.getDataY()));
     }
     //endregion
 }

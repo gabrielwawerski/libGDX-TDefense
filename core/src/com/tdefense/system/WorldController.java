@@ -10,6 +10,7 @@ import com.tdefense.system.asset_manager.AssetHandler;
 import com.tdefense.world.entity_concrete.enemy.TestEnemy;
 import com.tdefense.world.entity_concrete.player.Player;
 import com.tdefense.world.map.map.CellMap;
+import com.tdefense.world.map.map_utils.MapUtils;
 
 /**
  * Handles all logic related operations, such as updating entity_concrete positions and all other non-graphic related business.
@@ -28,6 +29,14 @@ class WorldController {
         if (Gdx.input.isKeyPressed(Input.Keys.S)) player.subPositionY(playerMovSpeed);
         if (Gdx.input.isKeyPressed(Input.Keys.A)) player.subPositionX(playerMovSpeed);
         if (Gdx.input.isKeyPressed(Input.Keys.D)) player.addPositionX(playerMovSpeed);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            enemy.setPositon(MapUtils.scale(map.getStartCell().getX()), MapUtils.scale(map.getStartCell().getY()));
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            enemy.setPositon(MapUtils.scale(map.getFinalCell().getX()), MapUtils.scale(map.getFinalCell().getY()));
+        }
     }
 
     void initialize() {
@@ -36,7 +45,7 @@ class WorldController {
         map.create();
         player = new Player(AssetHandler.getInstance().get("player.png", Texture.class));
         player.create();
-        enemy = new TestEnemy(AssetHandler.getInstance().get("enemy.png", Texture.class));
+        enemy = new EnemyEntity(AssetHandler.getInstance().get("enemy.png", Texture.class));
         enemy.create();
     }
 }
