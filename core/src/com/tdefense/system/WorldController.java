@@ -6,22 +6,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import com.tdefense.system.asset_manager.AssetHandler;
 
-public class WorldCoordinator implements Disposable {
-    private static final String TAG = WorldCoordinator.class.getSimpleName();
-
-    // framework resources
+public class WorldController implements Disposable {
+    private static final String TAG = WorldController.class.getSimpleName();
+    // framework resources, etc.
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private LogicHandler logicHandler;
     
-    public WorldCoordinator(LogicHandler logicHandler) {
+    public WorldController(LogicHandler logicHandler) {
         this.logicHandler = logicHandler;
-        initialize();
-    }
-    
-    private void initialize() {
+
         AssetHandler.getInstance().loadAssets(true);
-        logicHandler.initialize();
+        this.logicHandler.initialize();
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.6f, Gdx.graphics.getHeight() / 1.6f);
@@ -42,7 +38,7 @@ public class WorldCoordinator implements Disposable {
     private void drawScene() {
         batch.begin();
         logicHandler.map.draw(batch);
-        logicHandler.testEnemy.draw(batch);
+        logicHandler.enemy.draw(batch);
         logicHandler.player.draw(batch);
         batch.end();
     }

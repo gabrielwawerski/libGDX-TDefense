@@ -3,9 +3,7 @@ package com.tdefense.entity_system.entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
-import com.tdefense.tools.Constants;
 
 public abstract class Entity {
     protected Texture texture;
@@ -17,7 +15,9 @@ public abstract class Entity {
         this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-    public abstract void draw(Batch batch);
+    public void draw(Batch batch) {
+        batch.draw(sprite, positon.x, positon.y);
+    };
 
     public abstract void create();
 
@@ -33,16 +33,16 @@ public abstract class Entity {
         return positon;
     }
 
-    public float getPosX() {
+    public float getPositionX() {
         return positon.x;
-    }
-
-    public float getPosY() {
-        return positon.y;
     }
 
     public void setPositonX(float x) {
         positon.x = x;
+    }
+
+    public float getPositionY() {
+        return positon.y;
     }
 
     public void setPositonY(float y) {

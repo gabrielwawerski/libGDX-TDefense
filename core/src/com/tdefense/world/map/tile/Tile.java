@@ -1,5 +1,6 @@
 package com.tdefense.world.map.tile;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Tile {
@@ -9,8 +10,7 @@ public class Tile {
         this.texture = texture;
     }
 
-    public TextureRegion getTexture() {
+    public TextureRegion getTextureRegion() {
         return texture;
     }
-
 }
