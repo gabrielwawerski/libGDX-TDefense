@@ -15,7 +15,6 @@ public class WorldRenderer implements Disposable {
     
     public WorldRenderer(WorldController worldController) {
         this.worldController = worldController;
-        AssetHandler.getInstance().loadAssets(true);
         this.worldController.initialize();
         batch = new SpriteBatch();
         camera = new OrthographicCamera();

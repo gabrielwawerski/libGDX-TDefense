@@ -2,7 +2,7 @@
 tile.png
 size: 128,32
 format: RGBA8888
-filter: MipMapLinearNearest, MipMapLinearNearest
+filter: MipMapLinearNearest,MipMapLinearNearest
 repeat: none
 path
   rotate: false

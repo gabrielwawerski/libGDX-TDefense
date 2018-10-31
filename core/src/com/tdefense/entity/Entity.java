@@ -15,9 +15,7 @@ public abstract class Entity {
         this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-    public void draw(Batch batch) {
-        batch.draw(sprite, positon.x, positon.y);
-    };
+    public abstract void draw(Batch batch);
 
     public abstract void create();
 
