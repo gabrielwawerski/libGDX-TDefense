@@ -1,4 +1,4 @@
-package com.tdefense.entity_system.entity;
+package com.tdefense.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;

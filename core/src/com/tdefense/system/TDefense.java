@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.GL20;
 public class TDefense extends Game {
     private static final String TAG = TDefense.class.getSimpleName();
 
-    private WorldController worldController;
+    private WorldRenderer worldRenderer;
 
 	@Override
 	public void create () {
-	    worldController = new WorldController(new LogicHandler());
+	    worldRenderer = new WorldRenderer(new WorldController());
 	}
 
     @Override
@@ -18,11 +18,11 @@ public class TDefense extends Game {
         Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f, 0xff/255.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        worldController.render();
+        worldRenderer.render();
     }
 
     @Override
 	public void dispose () {
-	    worldController.dispose();
+	    worldRenderer.dispose();
 	}
 }

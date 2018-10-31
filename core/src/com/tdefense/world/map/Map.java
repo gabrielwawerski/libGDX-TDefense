@@ -2,10 +2,10 @@ package com.tdefense.world.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.tdefense.tools.Constant;
+import com.tdefense.system.Constant;
 import com.tdefense.world.map.map_provider.MapProvider;
 import com.tdefense.world.map.tile.Tile;
-import com.tdefense.world.map.waypoint.WaypointBuilder;
+import com.tdefense.world.map.waypoint.WaypointSetBuilder;
 import com.tdefense.world.map.waypoint.WaypointSet;
 
 public class Map {
@@ -23,20 +23,25 @@ public class Map {
         this.tileAtlas = tileAtlas;
     }
 
+    public WaypointSet getWaypointSet() {
+        return waypointSet;
+    }
+
     public void create() {
         grassTile = new Tile(tileAtlas.findRegion("grass"));
-        pathTile = new Tile(tileAtlas.findRegion("waypoint"));
+        pathTile = new Tile(tileAtlas.findRegion("path"));
         map = MapProvider.getMap();
         mapSizeX = map.length;
         mapSizeY = map[0].length;
-        waypointSet = WaypointBuilder.getWaypointSet(map);
+        waypointSet = WaypointSetBuilder.getWaypointSet(map);
     }
 
     public void draw(Batch batch) {
-        for (int x = 0; x < mapSizeX; x++) { for (int y = 0; y < mapSizeY; y++) {
+        for (int x = 0; x < mapSizeX; x++) {
+            for (int y = 0; y < mapSizeY; y++) {
                 if (map[x][y] == 0) {
                     batch.draw(grassTile.getTextureRegion(), scale(x), scale(y)); }
-                if (map[x][y] == 1 || map[x][y] == 9) {
+                if (map[x][y] == 1 || map[x][y] == 9 || map[x][y] == 8) {
                     batch.draw(pathTile.getTextureRegion(), scale(x), scale(y));
                 }
             }
