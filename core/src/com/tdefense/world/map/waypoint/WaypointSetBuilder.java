@@ -8,8 +8,11 @@ public class WaypointSetBuilder {
     private Cell[][] cells;
     private WaypointSet waypointSet;
 
-    public WaypointSet getWaypointSet(Cell[][] cells) {
+    public WaypointSetBuilder(Cell[][] cells) {
         this.cells = cells;
+    }
+
+    public WaypointSet getWaypointSet() {
         waypointSet = new WaypointSet();
         Waypoint originWaypoint = new Waypoint(map.getStartCell().getDataX(), map.getStartCell().getDataY());
 //        waypointSet.add(originWaypoint);

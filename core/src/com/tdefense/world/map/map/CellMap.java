@@ -18,7 +18,7 @@ public class CellMap {
     private static Cell startCell;
     private static Cell finalCell;
 
-    WaypointSetBuilder wBuilder;
+    private WaypointSetBuilder wBuilder;
     private WaypointSet waypointSet;
 
     public CellMap(TextureAtlas textureAtlas) {
@@ -31,8 +31,7 @@ public class CellMap {
         pathTile = new Tile(tileAtlas.findRegion("path"));
         mapData = MapUtils.getMap();
         translateCellMap(cells, mapData);
-
-        wBuilder = new w
+        wBuilder = new WaypointSetBuilder(cells);
     }
 
     public void draw(Batch batch) {
