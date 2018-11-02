@@ -1,8 +1,7 @@
-package com.tdefense.world.map.map_utils;
+package com.tdefense.world.util;
 
 import com.tdefense.system.Constant;
-import com.tdefense.world.map.map.CellMap;
-import com.tdefense.world.map.map.CellType;
+import com.tdefense.world.map.CellMap;
 
 public class MapUtils {
     public static int[][] getOrderedMapData() {

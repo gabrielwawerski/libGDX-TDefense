@@ -1,6 +1,4 @@
-package com.tdefense.world.map.map_utils;
-
-import com.tdefense.world.map.map.CellType;
+package com.tdefense.world.util;
 
 public class Cell {
     private CellType cellType;

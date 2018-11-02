@@ -1,10 +1,11 @@
-package com.tdefense.world.map.map;
+package com.tdefense.world.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tdefense.system.Constant;
 import com.tdefense.system.logging.Logger;
-import com.tdefense.world.map.map_utils.*;
+import com.tdefense.world.map.util.*;
+import com.tdefense.world.util.*;
 
 public class CellMap {
     private TextureAtlas tileAtlas;

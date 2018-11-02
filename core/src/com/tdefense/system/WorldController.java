@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tdefense.entity.enemy.EnemyEntity;
 import com.tdefense.entity.player.PlayerEntity;
 import com.tdefense.system.asset_manager.AssetHandler;
-import com.tdefense.world.map.map.CellMap;
-import com.tdefense.world.map.map_utils.MapUtils;
+import com.tdefense.world.map.CellMap;
+import com.tdefense.world.util.MapUtils;
 
 /**
  * Handles all logic related operations, such as updating entity_concrete positions and all other non-graphic related business.

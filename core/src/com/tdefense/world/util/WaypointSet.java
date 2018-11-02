@@ -1,4 +1,4 @@
-package com.tdefense.world.map.map_utils;
+package com.tdefense.world.util;
 
 import java.util.ArrayList;
 

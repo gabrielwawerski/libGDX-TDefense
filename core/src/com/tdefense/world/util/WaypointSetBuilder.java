@@ -1,9 +1,8 @@
-package com.tdefense.world.map.map_utils;
+package com.tdefense.world.util;
 
 import com.tdefense.system.Constant;
 import com.tdefense.system.logging.Logger;
-import com.tdefense.world.map.map.CellMap;
-import com.tdefense.world.map.map.CellType;
+import com.tdefense.world.map.CellMap;
 
 public class WaypointSetBuilder {
     private CellMap cellMap;
@@ -38,6 +37,7 @@ public class WaypointSetBuilder {
         // find starting position
         for (int i = 0; i < Constant.MAP_LENGTH_X; i++) {
             for (int j = 0; j < Constant.MAP_LENGTH_Y; j++) {
+
                 // check and save map's final cell
                 if (mapData[i][0] != 0) {
                     finalStep = j;
@@ -49,7 +49,7 @@ public class WaypointSetBuilder {
                     y = j;
                     nextStep = i;
                 } else {
-                    String errorMessage = "No starting point in ordered map data.";
+                    String errorMessage = "No starting point found in ordered map data.";
                     Logger.log(TAG, errorMessage);
                     throw new IllegalArgumentException(errorMessage);
                 }
