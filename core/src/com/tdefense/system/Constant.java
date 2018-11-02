@@ -16,9 +16,9 @@ public final class Constant {
 
     public static final int GRASS_CODE = 0;
     public static final int PATH_CODE = 1;
-    /** path's origin value */
-    public static final int ORIGIN_CODE = 9;
-    /** path's last value */
+    /** path's first cell code value */
+    public static final int START_CODE = 9;
+    /** path's last cell code value */
     public static final int FINAL_CODE = 8;
 
     public static final float PLAYER_MOV_SPEED = 65;

@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tdefense.entity.enemy.EnemyEntity;
 import com.tdefense.entity.player.PlayerEntity;
 import com.tdefense.system.asset_manager.AssetHandler;
-import com.tdefense.world.entity_concrete.enemy.TestEnemy;
-import com.tdefense.world.entity_concrete.player.Player;
 import com.tdefense.world.map.map.CellMap;
 import com.tdefense.world.map.map_utils.MapUtils;
 
@@ -35,7 +33,7 @@ class WorldController {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-            enemy.setPositon(MapUtils.scale(map.getFinalCell().getX()), MapUtils.scale(map.getFinalCell().getY()));
+            enemy.setPositon(MapUtils.scale(map.getEndCell().getX()), MapUtils.scale(map.getEndCell().getY()));
         }
     }
 
@@ -43,7 +41,7 @@ class WorldController {
         AssetHandler.getInstance().loadAssets(true);
         map = new CellMap(AssetHandler.getInstance().get("tile.atlas", TextureAtlas.class));
         map.create();
-        player = new Player(AssetHandler.getInstance().get("player.png", Texture.class));
+        player = new PlayerEntity(AssetHandler.getInstance().get("player.png", Texture.class));
         player.create();
         enemy = new EnemyEntity(AssetHandler.getInstance().get("enemy.png", Texture.class));
         enemy.create();

@@ -8,10 +8,9 @@ public class Cell {
     private float posY;
     private int dataX;
     private int dataY;
+    private boolean visited;
 
-    protected boolean visited;
-
-    public Cell(CellType cellType, float posX, float posY, int dataX, int dataY) {
+    Cell(CellType cellType, float posX, float posY, int dataX, int dataY) {
         this.cellType = cellType;
         this.posX = posX;
         this.posY = posY;
@@ -20,17 +19,13 @@ public class Cell {
         this.dataY = dataY;
     }
 
-    protected Cell(int dataX, int dataY) {
+    Cell(int dataX, int dataY) {
         this.dataX = dataX;
         this.dataY = dataY;
     }
 
     public void setVisited(boolean visited) {
         this.visited = visited;
-    }
-
-    protected Coord getCell(int x, int y) {
-        return new Coord(dataX, dataY);
     }
 
     public CellType getCellType() {
