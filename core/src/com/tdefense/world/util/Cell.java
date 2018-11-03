@@ -2,16 +2,24 @@ package com.tdefense.world.util;
 
 public class Cell {
     private CellType cellType;
-    private float posX;
-    private float posY;
+    private float mapX;
+    private float mapY;
     private int dataX;
     private int dataY;
     private boolean visited;
 
-    Cell(CellType cellType, float posX, float posY, int dataX, int dataY) {
+    /**
+     *
+     * @param cellType
+     * @param mapX cell's position on game map array, scaled with cell coordinates
+     * @param mapY cell's position on game map array, scaled with cell coordinates
+     * @param dataX x cell position in coordinate array
+     * @param dataY y cell position in coordinate array
+     */
+    Cell(CellType cellType, float mapX, float mapY, int dataX, int dataY) {
         this.cellType = cellType;
-        this.posX = posX;
-        this.posY = posY;
+        this.mapX = mapX;
+        this.mapY = mapY;
         visited = false;
         this.dataX = dataX;
         this.dataY = dataY;
@@ -30,12 +38,12 @@ public class Cell {
         return cellType;
     }
 
-    public float getX() {
-        return posX;
+    public float getMapX() {
+        return mapX;
     }
 
-    public float getY() {
-        return posY;
+    public float getMapY() {
+        return mapY;
     }
 
     public int getDataX() {
@@ -47,11 +55,11 @@ public class Cell {
     }
 
     protected void setX(float posX) {
-        this.posX = posX;
+        this.mapX = posX;
     }
 
     protected void setY(float posY) {
-        this.posY = posY;
+        this.mapY = posY;
     }
 
     protected void setDataX(int dataX) {

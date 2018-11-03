@@ -3,7 +3,7 @@ package com.tdefense.world.util;
 import com.tdefense.system.Constant;
 import com.tdefense.world.map.CellMap;
 
-public class MapUtils {
+public class MapUtil {
     public static int[][] getOrderedMapData() {
         return new int[][] {
            // y:  0   1   2   3   4   5   6   7   8     x:
@@ -34,35 +34,44 @@ public class MapUtils {
         };
     }
 
-    public static void translateOrderedMapData(Cell[][] cells, int[][] mapData) {
+    public static void orderedMapDataToCells(Cell[][] cells, int[][] mapData) {
         for (int x = 0; x < Constant.MAP_LENGTH_X; x++) {
             for (int y = 0; y < Constant.MAP_LENGTH_Y; y++) {
-                if (mapData[x][y] == CellType.PATH) {
-
+                if (mapData[x][y] == 0) {
+                    cells[x][y] = new Cell(CellType.GRASS, toMap(x), toMap(y), x, y);
                 }
 
-                else if
+                else if (mapData[x][y] == 1) {
+                    cells[x][y] = new Cell(CellType.PATH_START, toMap(x), toMap(y), x, y);
+                }
+
+                else if (mapData[x][y] > 1) {
+                    cells[x][y] = new Cell(CellType.PATH, toMap(x), toMap(y), x, y);
+                }
             }
         }
     }
 
-    public static void translateSimpleMapData(int[][] mapData, Cell[][] cells) {
+    public static void simpleMapDataToCells(int[][] mapData, Cell[][] cells) {
         for (int x = 0; x < Constant.MAP_LENGTH_X; x++) {
             for (int y = 0; y < Constant.MAP_LENGTH_Y; y++) {
 
                 if (mapData[x][y] == Constant.GRASS_CODE) {
-                    cells[x][y] = new Cell(CellType.GRASS, scale(x), scale(x), x, y);
+                    cells[x][y] = new Cell(CellType.GRASS, toMap(x), toMap(x), x, y);
                 }
+
                 else if (mapData[x][y] == Constant.PATH_CODE) {
-                    cells[x][y] = new Cell(CellType.PATH, scale(x), scale(x), x, y);
+                    cells[x][y] = new Cell(CellType.PATH, toMap(x), toMap(x), x, y);
                 }
+
                 else if (mapData[x][y] == Constant.START_CODE) {
-                    Cell cell = new Cell(CellType.PATH_START, scale(x), scale(x), x, y);
+                    Cell cell = new Cell(CellType.PATH_START, toMap(x), toMap(x), x, y);
                     cells[x][y] = cell;
                     CellMap.sSetStartCell(cell);
                 }
+
                 else if (mapData[x][y] == Constant.FINAL_CODE) {
-                    Cell cell = new Cell(CellType.PATH_END, scale(x), scale(x), x, y);
+                    Cell cell = new Cell(CellType.PATH_END, toMap(x), toMap(x), x, y);
                     cells[x][y] = cell;
                     CellMap.sSetEndCell(cell);
                 }
@@ -88,7 +97,7 @@ public class MapUtils {
      * @return scaled value
      * @author mx
      */
-    public static float scale(float value) {
+    public static float toMap(float value) {
         return value * Constant.TILE_SCALE;
     }
 }

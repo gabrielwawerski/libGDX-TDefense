@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tdefense.system.Constant;
 import com.tdefense.system.logging.Logger;
-import com.tdefense.world.map.util.*;
 import com.tdefense.world.util.*;
 
 public class CellMap {
@@ -29,8 +28,8 @@ public class CellMap {
 
     public void create() {
         cells = new Cell[Constant.MAP_LENGTH_X][Constant.MAP_LENGTH_Y];
-        mapData = MapUtils.getSimpleMapData();
-        MapUtils.translateSimpleMapData(mapData, cells);
+        mapData = MapUtil.getOrderedMapData();
+        MapUtil.orderedMapDataToCells((mapData, cells);
         wBuilder = new WaypointSetBuilder(this);
         waypointSet = wBuilder.createSimpleWaypointSet();
     }
@@ -39,10 +38,10 @@ public class CellMap {
         for (int x = 0; x < Constant.MAP_LENGTH_X; x++) {
             for (int y = 0; y < Constant.MAP_LENGTH_Y; y++) {
                 if (mapData[x][y] == Constant.FINAL_CODE)
-                    batch.draw(grassTile.getTextureRegion(), MapUtils.scale(x), MapUtils.scale(y));
+                    batch.draw(grassTile.getTextureRegion(), MapUtil.toMap(x), MapUtil.toMap(y));
 
                 if (mapData[x][y] == Constant.START_CODE || mapData[x][y] == Constant.PATH_CODE)
-                    batch.draw(pathTile.getTextureRegion(), MapUtils.scale(x), MapUtils.scale(y));
+                    batch.draw(pathTile.getTextureRegion(), MapUtil.toMap(x), MapUtil.toMap(y));
             }
         }
     }
