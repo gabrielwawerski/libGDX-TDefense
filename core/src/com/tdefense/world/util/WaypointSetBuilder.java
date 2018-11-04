@@ -1,181 +1,126 @@
 package com.tdefense.world.util;
 
-import com.sun.org.apache.xerces.internal.impl.dv.DatatypeException;
-import com.tdefense.system.Constant;
 import com.tdefense.system.logging.Logger;
 import com.tdefense.world.map.CellMap;
 
-import java.util.IllegalFormatConversionException;
-import java.util.IllegalFormatException;
-import java.util.zip.DataFormatException;
-
+// TODO static
 public class WaypointSetBuilder {
     private CellMap cellMap;
     private WaypointSet waypointSet;
 
-    private static final String TAG = WaypointSetBuilder.class.getName();
+    private static final String TAG = WaypointSetBuilder.class.getSimpleName();
 
     public WaypointSet createOrderedWaypointSet(CellMap cellMap) {
         this.cellMap = cellMap;
         waypointSet = new WaypointSet();
-        fillSimpleWaypointSet();
+        buildOrderedWaypointSet();
         return waypointSet;
     }
 
-    public WaypointSet createSimpleWaypointSet(CellMap cellMap) {
-        this.cellMap = cellMap;
-        waypointSet = new WaypointSet();
-        fillOrderedWaypointSet();
-        return waypointSet;
-    }
-
-    private void fillOrderedWaypointSet() {
-        Cell[][] cells = cellMap.getCells();
+    private void buildOrderedWaypointSet() {
         int[][] mapData = cellMap.getMapData();
-        boolean loop = true;
+        int currentPosX = 0;
+        int currentPosY = 0;
+        int endPosX = 0;
+        int endPosY = 0;
         int nextStepId = 0;
-        int posX = 0;
-        int posY = 0;
+        boolean waypointSetBuilt = false;
+
+        //region find start position, end position and total steps in mapData
+        int currentFinalStepX = 0;
+        int currentFinalStepY = 0;
+        int currentFinalStep = 0;
         boolean startCellFound = false;
-        int lastStep = 0;
 
-        // find beginning cell
-        for (int i = 0; i < Constant.MAP_LENGTH_X; i++) {
-            for (int j = 0; j < Constant.MAP_LENGTH_Y; j++) {
-                if (mapData[i][j] >= 1) {
-                    CellMap.sSetStartCell(new Cell(CellType.PATH_START,
-                            MapUtil.toMap(i), MapUtil.toMap(j),
-                            i, j));
+        for (int x = 0; x < mapData.length; x++) {
+            for (int y = 0; y < mapData[x].length; y++) {
+                if (mapData[x][y] > currentFinalStep) {
+                    currentFinalStep = mapData[x][y];
+                    currentFinalStepX = x;
+                    currentFinalStepY = y;
+                }
 
-                    startCellFound = true;
-                    posX = i;
-                    posY = j;
-                    waypointSet.add(CellMap.sGetStartCell());
+                if (mapData[x][y] == 1) {
+                    currentPosX = x; // set pos x for waypointSet creating loop
+                    currentPosY = y; // set pos y for waypointSet creating loop
                     nextStepId = 2;
-                    break;
+                    cellMap.setStartCell(x, y);
+                    waypointSet.add(MapUtils.toMap(x), MapUtils.toMap(y));
+                    startCellFound = true;
+
+                    Logger.debug(TAG, "start cell found: (" + cellMap.getStartCell().getDataX()
+                            + ", " + cellMap.getStartCell().getDataY() + ")");
                 }
             }
         }
 
         if (!startCellFound) {
-            String errorMessage = "Start cell hasn't been found.";
+            String errorMessage = "start cell not found.";
             Logger.error(TAG, errorMessage);
             throw new IllegalArgumentException(errorMessage);
         } else {
-            while (posX != cellMap.getEndCell().getDataX() && posY != cellMap.getEndCell().getDataY()) {
-                for (int i = posX; i < Constant.MAP_LENGTH_X; i++) {
-                    for (int j = posY; j < Constant.MAP_LENGTH_Y; j++) {
-                        if (!(j - 1 < 0) && mapData[i][j - 1] == nextStepId) {
-                            nextStepId++;
-                            posY--;
-                            waypointSet.add(cellMap.getCellAt(i, 0));
-                        } else if (!(j + 1 < 0) && mapData[i][j + 1] == nextStepId) {
-                            nextStepId++;
-                            posY++;
-                            waypointSet.add(cellMap.getCellAt(i, 0));
-                        } else if (!(i - 1 < 0) && mapData[i - 1][j] == nextStepId) {
-                            nextStepId++;
-                            posX--;
-                        }
-                    }
-                }
-            }
-        }
+            cellMap.setEndCell(currentFinalStepX, currentFinalStepY);
+            waypointSet.setLastWaypoint(
+                    new Waypoint(MapUtils.toMap(currentFinalStepX), MapUtils.toMap(currentFinalStepY)));
+            endPosX = cellMap.getEndCell().getDataX();
+            endPosY = cellMap.getEndCell().getDataY();
 
-        // main loop for filling waypointSet
-        while (posX < Constant.MAP_LENGTH_X && posY < Constant.MAP_LENGTH_Y && loop) { // TODO temporary - figue it out
+            Logger.debug(TAG, "end cell found: (" + cellMap.getEndCell().getDataX()
+                    + ", " + cellMap.getEndCell().getDataY() + ")");
+        }
+        //endregion
+
+        Logger.debug(TAG, "building waypoint set. starting data: (" + cellMap.getStartCell().getDataX() + ", " + cellMap.getStartCell().getDataY() + ")");
+        while (!waypointSetBuilt) {
             // DOWN CHECK
-            if (mapData[posX][posY - 1] == nextStepId) {
+            if (!(currentPosY - 1 < 0)
+                    && mapData[currentPosX][currentPosY - 1] == nextStepId) {
+
+                currentPosY--;
                 nextStepId++;
-                waypointSet.add(cells[posX][posY]);
-                posY++;
+                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
             }
 
             // LEFT CHECK
-            else if (mapData[posX - 1][posY] == nextStepId) {
+            else if (!(currentPosX - 1 < 0)
+                    && mapData[currentPosX - 1][currentPosY] == nextStepId) {
+
+                currentPosX--;
                 nextStepId++;
-                waypointSet.add(cells[posX - 1][posY]);
-                posX++;
-            }
-        }
-    }
-
-    private void fillSimpleWaypointSet() {
-        waypointSet.add(cellMap.getStartCell());
-
-        // current position inside cellMap's cells 2d array.
-        Cell currentPos = cellMap.getStartCell();
-        Cell nextPos = cellMap.getStartCell();
-        Cell endPos = cellMap.getEndCell();
-
-        // cells for checking next index in corresponding direction
-        Cell downCheck = new Cell(currentPos.getDataX(), currentPos.getDataY() - 1);
-        Cell leftCheck = new Cell(currentPos.getDataX() - 1, currentPos.getDataY());
-        Cell rightCheck = new Cell(currentPos.getDataX() + 1, currentPos.getDataY());
-        Cell upCheck = new Cell(currentPos.getDataX(), currentPos.getDataY() + 1);
-
-        // TODO:
-        // - add cell to waypointSet    X
-        // - set cell visited to true   X
-        while (currentPos != endPos) {
-            // DOWN CHECK
-            if ((cellMap.cellTypeAt(downCheck) == CellType.PATH || cellMap.cellTypeAt(downCheck) == CellType.PATH_END)
-                    && !(downCheck.getDataX() > cellMap.getCells().length)) {
-
-                if (cellMap.cellTypeAt(downCheck) == CellType.PATH) {
-                    cellMap.setCellVisited(downCheck);
-                    waypointSet.add(downCheck);
-                    currentPos = cellMap.getCellAt(downCheck);
-                }
-                else if (cellMap.cellTypeAt(downCheck) == CellType.PATH_END) {
-                    waypointSet.add(downCheck);
-                    break;
-                }
-            }
-
-            // LEFT CHECK
-            else if ((cellMap.getCellAt(leftCheck).getCellType() == CellType.PATH || cellMap.cellTypeAt(leftCheck) == CellType.PATH_END)
-                    && !(leftCheck.getDataX() < 0)) {
-
-                if (cellMap.cellTypeAt(leftCheck) == CellType.PATH) {
-                    cellMap.setCellVisited(leftCheck);
-                    waypointSet.add(leftCheck);
-                    currentPos = leftCheck;
-                }
-                else if (cellMap.cellTypeAt(leftCheck) == CellType.PATH_END) {
-                    waypointSet.add(leftCheck);
-                    break;
-                }
+                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
             }
 
             // RIGHT CHECK
-            else if ((cellMap.cellTypeAt(rightCheck) == CellType.PATH || cellMap.cellTypeAt(rightCheck) == CellType.PATH_END)
-                    && !(rightCheck.getDataX() > cellMap.getCells().length)) {
+            else if (!(currentPosX + 1 >= mapData.length)
+                    && mapData[currentPosX + 1][currentPosY] == nextStepId) {
 
-                if (cellMap.cellTypeAt(rightCheck) == CellType.PATH) {
-                    cellMap.setCellVisited(rightCheck);
-                    waypointSet.add(rightCheck);
-                    currentPos = rightCheck;
-                }
-                else if (cellMap.cellTypeAt(rightCheck) == CellType.PATH_END) {
-                    waypointSet.add(rightCheck);
-                    break;
-                }
+                currentPosX++;
+                nextStepId++;
+                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
             }
 
             // UP CHECK
-            else if ((cellMap.cellTypeAt(upCheck) == CellType.PATH || cellMap.cellTypeAt(upCheck) == CellType.PATH_END)
-                    && !(upCheck.getDataY() > cellMap.getCells()[0].length)) {
+            else if (!(currentPosY + 1 >= mapData[currentPosX].length)
+                    && mapData[currentPosX][currentPosY + 1] == nextStepId) {
 
-                if (cellMap.cellTypeAt(upCheck) == CellType.PATH) {
-                    cellMap.setCellVisited(upCheck);
-                    waypointSet.add(upCheck);
-                }
-                else if (cellMap.cellTypeAt(upCheck) == CellType.PATH_END) {
-                    waypointSet.add(upCheck);
-                    break;
-                }
+                currentPosY++;
+                nextStepId++;
+                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
+            }
+
+            if (currentPosX == endPosX && currentPosY == endPosY) {
+                waypointSet.build(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
+                waypointSetBuilt = true;
             }
         }
+
+        //region debug messages
+        Logger.debug(TAG, "waypointset data:\n- size: " + Integer.toString(waypointSet.waypoints.size())
+                + "\n- first waypoint: " + waypointSet.waypoints.get(0).getVector()
+                + "\n- last waypoint: " + waypointSet.waypoints.get(waypointSet.waypoints.size() - 1).getVector());
+        Logger.debug(TAG, "waypoints:");
+        for (int i = 0; i < waypointSet.waypoints.size(); i++)
+            Logger.debug(Integer.toString(i + 1), waypointSet.waypoints.get(i).getVector().toString());
+        //endregion
     }
 }

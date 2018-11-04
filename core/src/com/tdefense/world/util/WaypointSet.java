@@ -3,22 +3,23 @@ package com.tdefense.world.util;
 import java.util.ArrayList;
 
 public class WaypointSet {
-    private ArrayList<Waypoint> waypoints;
+    public ArrayList<Waypoint> waypoints;
+    private Waypoint lastWaypoint;
     private int index;
-
-    private Waypoint originWaypoint;
-    private Waypoint finalWaypoint;
 
     private static final String TAG = WaypointSet.class.getSimpleName();
 
     public Waypoint getNextWaypoint() {
-        if (index > waypoints.size() - 1)
+        if (waypoints.get(index).getX() == lastWaypoint.getX()
+                && waypoints.get(index).getY() == lastWaypoint.getY()) {
             index = 0;
+            return lastWaypoint;
+        }
         return waypoints.get(index++);
     }
 
-    public Waypoint getOriginWaypoint() {
-        return originWaypoint;
+    public Waypoint getLastWaypoint() {
+        return lastWaypoint;
     }
 
     //region WaypointBuilder methods
@@ -27,20 +28,20 @@ public class WaypointSet {
         index = 0;
     }
 
-    void setOriginWaypoint(Waypoint waypoint) {
-        originWaypoint = waypoint;
+    void add(float x, float y) {
+        waypoints.add(new Waypoint(x, y));
     }
 
-    void setFinalWaypoint(Waypoint finalWaypoint) {
-        this.finalWaypoint = finalWaypoint;
+    void setLastWaypoint(Waypoint lastWaypoint) {
+        this.lastWaypoint = lastWaypoint;
     }
 
-    void add(Waypoint waypoint) {
-        waypoints.add(waypoint);
-    }
-
-    void add(Cell cell) {
-        waypoints.add(new Waypoint(cell.getDataX(), cell.getDataY()));
+    /**
+     * Call to set last waypoint coordinates.
+     */
+    void build(float x, float y) {
+        waypoints.get(waypoints.size() - 1).setX(x);
+        waypoints.get(waypoints.size() - 1).setY(y);
     }
     //endregion
 }

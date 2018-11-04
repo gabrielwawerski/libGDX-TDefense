@@ -6,7 +6,6 @@ public class Cell {
     private float mapY;
     private int dataX;
     private int dataY;
-    private boolean visited;
 
     /**
      *
@@ -20,18 +19,8 @@ public class Cell {
         this.cellType = cellType;
         this.mapX = mapX;
         this.mapY = mapY;
-        visited = false;
         this.dataX = dataX;
         this.dataY = dataY;
-    }
-
-    Cell(int dataX, int dataY) {
-        this.dataX = dataX;
-        this.dataY = dataY;
-    }
-
-    public void setVisited(boolean visited) {
-        this.visited = visited;
     }
 
     public CellType getCellType() {
@@ -52,21 +41,5 @@ public class Cell {
 
     public int getDataY() {
         return dataY;
-    }
-
-    protected void setX(float posX) {
-        this.mapX = posX;
-    }
-
-    protected void setY(float posY) {
-        this.mapY = posY;
-    }
-
-    protected void setDataX(int dataX) {
-        this.dataX = dataX;
-    }
-
-    protected void setDataY(int dataY) {
-        this.dataY = dataY;
     }
 }

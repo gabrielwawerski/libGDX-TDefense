@@ -34,7 +34,7 @@ public final class Logger {
      * <table>
      *     <tr><td>{@link #LOG_NONE}</td> <td>mutes all logging</td></tr>
      *     <tr><td>{@link #LOG_ERROR}</td> <td>will only let error messages through</td></tr>
-     *     <tr><td>{@link #LOG_INFO}</td> <td>logs only error messages</td></tr>
+     *     <tr><td>{@link #LOG_INFO}</td> <td>logs all non-debug messages through</td></tr>
      *     <tr><td>{@link #LOG_DEBUG}</td> <td>logs all messages</td></tr>
      * </table>
      * @param logLevel desired logging level, default is {@code LOG_ERROR}. See also {@link Constant#DEFAULT_LOG_LEVEL}.

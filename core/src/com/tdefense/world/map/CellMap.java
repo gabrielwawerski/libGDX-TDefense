@@ -12,36 +12,37 @@ public class CellMap {
     private Tile pathTile;
     private Cell[][] cells;
     private int[][] mapData;
-    private static Cell startCell;
-    private static Cell endCell;
+    private Cell startCell;
+    private Cell endCell;
 
     private WaypointSetBuilder wBuilder;
-    private WaypointSet waypointSet;
+    public WaypointSet waypointSet;
 
-    private static final String TAG = CellMap.class.getName();
+    private static final String TAG = CellMap.class.getSimpleName();
 
-    public CellMap(TextureAtlas textureAtlas) {
-        this.tileAtlas = textureAtlas;
-        grassTile = new Tile(tileAtlas.findRegion("grass"));
-        pathTile = new Tile(tileAtlas.findRegion("path"));
+    public CellMap(TextureAtlas tileAtlas) {
+        this.tileAtlas = tileAtlas;
+        grassTile = new Tile(this.tileAtlas.findRegion("grass"));
+        pathTile = new Tile(this.tileAtlas.findRegion("path"));
     }
 
     public void create() {
         cells = new Cell[Constant.MAP_LENGTH_X][Constant.MAP_LENGTH_Y];
-        mapData = MapUtil.getOrderedMapData();
-        MapUtil.orderedMapDataToCells((mapData, cells);
-        wBuilder = new WaypointSetBuilder(this);
-        waypointSet = wBuilder.createSimpleWaypointSet();
+        wBuilder = new WaypointSetBuilder();
+
+        mapData = MapUtils.getOrderedMapData();
+        MapUtils.orderedMapDataToCells(this);
+        waypointSet = wBuilder.createOrderedWaypointSet(this);
     }
 
     public void draw(Batch batch) {
         for (int x = 0; x < Constant.MAP_LENGTH_X; x++) {
             for (int y = 0; y < Constant.MAP_LENGTH_Y; y++) {
-                if (mapData[x][y] == Constant.FINAL_CODE)
-                    batch.draw(grassTile.getTextureRegion(), MapUtil.toMap(x), MapUtil.toMap(y));
+                if (cells[x][y].getCellType() == CellType.GRASS)
+                    batch.draw(grassTile.getTextureRegion(), cells[x][y].getMapX(), cells[x][y].getMapY());
 
-                if (mapData[x][y] == Constant.START_CODE || mapData[x][y] == Constant.PATH_CODE)
-                    batch.draw(pathTile.getTextureRegion(), MapUtil.toMap(x), MapUtil.toMap(y));
+                if (cells[x][y].getCellType() == CellType.PATH)
+                    batch.draw(pathTile.getTextureRegion(), cells[x][y].getMapX(), cells[x][y].getMapY());
             }
         }
     }
@@ -63,10 +64,6 @@ public class CellMap {
         return mapData;
     }
 
-    public void setCellVisited(Cell cell) {
-        cells[cell.getDataX()][cell.getDataY()].setVisited(true);
-    }
-
     public CellType cellTypeAt(Cell cell) {
         return cells[cell.getDataX()][cell.getDataY()].getCellType();
     }
@@ -79,23 +76,15 @@ public class CellMap {
         return startCell;
     }
 
+    public void setStartCell(int x, int y) {
+        startCell = cells[x][y];
+    }
+
     public Cell getEndCell() {
         return endCell;
     }
 
-    public static Cell sGetStartCell() {
-        return startCell;
-    }
-
-    public static void sSetStartCell(Cell cell) {
-        startCell = cell;
-    }
-
-    public static Cell sGetEndCell() {
-        return endCell;
-    }
-
-    public static void sSetEndCell(Cell cell) {
-        startCell = cell;
+    public void setEndCell(int x, int y) {
+        endCell = cells[x][y];
     }
 }

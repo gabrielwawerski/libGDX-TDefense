@@ -2,7 +2,7 @@ package com.tdefense.system;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
-import com.tdefense.system.asset_manager.AssetHandler;
+import com.tdefense.system.logging.Logger;
 
 public class TDefense extends Game {
     private static final String TAG = TDefense.class.getSimpleName();
@@ -11,6 +11,7 @@ public class TDefense extends Game {
 
 	@Override
 	public void create () {
+        Logger.setLogLevel(Logger.LOG_DEBUG);
 	    worldRenderer = new WorldRenderer(new WorldController());
 	}
 

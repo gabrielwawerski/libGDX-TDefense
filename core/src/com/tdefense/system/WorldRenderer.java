@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import com.tdefense.system.asset_manager.AssetHandler;
+import com.tdefense.system.logging.Logger;
 
 public class WorldRenderer implements Disposable {
     private static final String TAG = WorldRenderer.class.getSimpleName();
@@ -18,6 +19,7 @@ public class WorldRenderer implements Disposable {
         this.worldController.initialize();
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
+
         camera.setToOrtho(false, Gdx.graphics.getWidth() / 1.6f, Gdx.graphics.getHeight() / 1.6f);
         camera.update();
     }
