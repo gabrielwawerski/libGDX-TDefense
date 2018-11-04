@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.tdefense.entity.Enemy;
 import com.tdefense.entity.Entity;
+import com.tdefense.world.util.WaypointSet;
 
 public class EnemyEntity extends Entity implements Enemy {
+    private WaypointSet waypointSet;
 
     public EnemyEntity(Texture texture) {
         super(texture);
@@ -22,5 +24,9 @@ public class EnemyEntity extends Entity implements Enemy {
     public void create() {
         sprite = new Sprite(texture);
         positon = new Vector2();
+    }
+
+    public void setWaypointSet(WaypointSet waypointSet) {
+        this.waypointSet = waypointSet;
     }
 }

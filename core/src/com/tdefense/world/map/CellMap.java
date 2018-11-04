@@ -47,6 +47,10 @@ public class CellMap {
         }
     }
 
+    public WaypointSet getWaypointSet() {
+        return waypointSet;
+    }
+
     public Cell getCellAt(int x, int y) {
         if ((x < 0 || x >= cells.length && y < 0 || y >= cells[0].length)) { // TODO check whether > length or >= length
             String errorMessage = "Invalid arguments. Found: x: " + x + ", y: " + y;

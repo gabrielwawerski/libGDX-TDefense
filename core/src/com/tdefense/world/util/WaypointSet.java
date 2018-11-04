@@ -22,7 +22,7 @@ public class WaypointSet {
         return lastWaypoint;
     }
 
-    //region WaypointBuilder methods
+    //region WaypointSetBuilder helper methods
     WaypointSet() {
         waypoints = new ArrayList<Waypoint>();
         index = 0;

@@ -47,5 +47,6 @@ class WorldController {
         player.create();
         enemy = new EnemyEntity(AssetHandler.getInstance().get("enemy.png", Texture.class));
         enemy.create();
+        enemy.setWaypointSet(map.getWaypointSet());
     }
 }
