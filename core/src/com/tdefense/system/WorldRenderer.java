@@ -10,9 +10,9 @@ import com.tdefense.system.logging.Logger;
 public class WorldRenderer implements Disposable {
     private static final String TAG = WorldRenderer.class.getSimpleName();
     // framework resources, etc.
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    private WorldController worldController;
+    OrthographicCamera camera;
+    SpriteBatch batch;
+    WorldController worldController;
     
     public WorldRenderer(WorldController worldController) {
         this.worldController = worldController;

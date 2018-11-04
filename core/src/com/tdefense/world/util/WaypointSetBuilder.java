@@ -17,6 +17,9 @@ public class WaypointSetBuilder {
         return waypointSet;
     }
 
+    /**
+     * Returns complete WaypointSet, with it's index set to 1.
+     */
     private void buildOrderedWaypointSet() {
         int[][] mapData = cellMap.getMapData();
         int currentPosX = 0;
@@ -26,7 +29,7 @@ public class WaypointSetBuilder {
         int nextStepId = 0;
         boolean waypointSetBuilt = false;
 
-        //region find start position, end position and total steps in mapData
+        //region find move position, end position and total steps in mapData
         int currentFinalStepX = 0;
         int currentFinalStepY = 0;
         int currentFinalStep = 0;
@@ -34,18 +37,20 @@ public class WaypointSetBuilder {
 
         for (int x = 0; x < mapData.length; x++) {
             for (int y = 0; y < mapData[x].length; y++) {
+                // find end position
                 if (mapData[x][y] > currentFinalStep) {
                     currentFinalStep = mapData[x][y];
                     currentFinalStepX = x;
                     currentFinalStepY = y;
                 }
 
+                // find start position
                 if (mapData[x][y] == 1) {
                     currentPosX = x; // set pos x for waypointSet creating loop
                     currentPosY = y; // set pos y for waypointSet creating loop
                     nextStepId = 2;
                     cellMap.setStartCell(x, y);
-                    waypointSet.add(MapUtils.toMap(x), MapUtils.toMap(y));
+                    waypointSet.add(MapUtils.toMap(x), MapUtils.toMap(y), Step.FIRST);
                     startCellFound = true;
 
                     Logger.debug(TAG, "start cell found: (" + cellMap.getStartCell().getDataX()
@@ -61,7 +66,7 @@ public class WaypointSetBuilder {
         } else {
             cellMap.setEndCell(currentFinalStepX, currentFinalStepY);
             waypointSet.setLastWaypoint(
-                    new Waypoint(MapUtils.toMap(currentFinalStepX), MapUtils.toMap(currentFinalStepY)));
+                    new Waypoint(MapUtils.toMap(currentFinalStepX), MapUtils.toMap(currentFinalStepY), Step.LAST));
             endPosX = cellMap.getEndCell().getDataX();
             endPosY = cellMap.getEndCell().getDataY();
 
@@ -75,37 +80,33 @@ public class WaypointSetBuilder {
             // DOWN CHECK
             if (!(currentPosY - 1 < 0)
                     && mapData[currentPosX][currentPosY - 1] == nextStepId) {
-
                 currentPosY--;
                 nextStepId++;
-                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
+                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY), Step.DOWN);
             }
 
             // LEFT CHECK
             else if (!(currentPosX - 1 < 0)
                     && mapData[currentPosX - 1][currentPosY] == nextStepId) {
-
                 currentPosX--;
                 nextStepId++;
-                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
+                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY), Step.LEFT);
             }
 
             // RIGHT CHECK
             else if (!(currentPosX + 1 >= mapData.length)
                     && mapData[currentPosX + 1][currentPosY] == nextStepId) {
-
                 currentPosX++;
                 nextStepId++;
-                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
+                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY), Step.RIGHT);
             }
 
             // UP CHECK
             else if (!(currentPosY + 1 >= mapData[currentPosX].length)
                     && mapData[currentPosX][currentPosY + 1] == nextStepId) {
-
                 currentPosY++;
                 nextStepId++;
-                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY));
+                waypointSet.add(MapUtils.toMap(currentPosX), MapUtils.toMap(currentPosY), Step.UP);
             }
 
             if (currentPosX == endPosX && currentPosY == endPosY) {
@@ -115,12 +116,12 @@ public class WaypointSetBuilder {
         }
 
         //region debug messages
-        Logger.debug(TAG, "waypointset data:\n- size: " + Integer.toString(waypointSet.waypoints.size())
-                + "\n- first waypoint: " + waypointSet.waypoints.get(0).getVector()
-                + "\n- last waypoint: " + waypointSet.waypoints.get(waypointSet.waypoints.size() - 1).getVector());
+        Logger.debug(TAG, "waypointSet arraylist size: " + Integer.toString(waypointSet.waypoints.size()));
+        Logger.debug(TAG, "first waypoint: " + waypointSet.waypoints.get(0).getVector());
+        Logger.debug(TAG, "last waypoint: " + waypointSet.waypoints.get(waypointSet.waypoints.size() - 1).getVector());
         Logger.debug(TAG, "waypoints:");
         for (int i = 0; i < waypointSet.waypoints.size(); i++)
-            Logger.debug(Integer.toString(i + 1), waypointSet.waypoints.get(i).getVector().toString());
+            Logger.debug(TAG, Integer.toString(i + 1) + " " + waypointSet.waypoints.get(i).getVector().toString());
         //endregion
     }
 }

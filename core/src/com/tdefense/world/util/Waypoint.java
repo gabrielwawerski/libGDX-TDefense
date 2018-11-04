@@ -4,9 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Waypoint {
     private Vector2 container;
+    private Step step;
 
-    Waypoint(float x, float y) {
+    Waypoint(float x, float y, Step step) {
         container = new Vector2(x, y);
+        this.step = step;
     }
 
     public Vector2 getVector() {
@@ -21,11 +23,19 @@ public class Waypoint {
         return container.y;
     }
 
+    public Step getStep() {
+        return step;
+    }
+
     void setX(float x) {
         container.x = x;
     }
 
     void setY(float y) {
         container.y = y;
+    }
+
+    void setStep(Step step) {
+        this.step = step;
     }
 }

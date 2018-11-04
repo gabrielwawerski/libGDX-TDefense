@@ -10,26 +10,37 @@ public class WaypointSet {
     private static final String TAG = WaypointSet.class.getSimpleName();
 
     public Waypoint getNextWaypoint() {
-        if (waypoints.get(index).getX() == lastWaypoint.getX()
-                && waypoints.get(index).getY() == lastWaypoint.getY()) {
-            index = 0;
-            return lastWaypoint;
-        }
         return waypoints.get(index++);
     }
 
+    public Waypoint getCurrentWaypoint() {
+        return waypoints.get(index);
+    }
+
+    public void nextWaypoint() {
+        index++;
+    }
+
+    public void reset() {
+        index = 1;
+    }
+
     public Waypoint getLastWaypoint() {
-        return lastWaypoint;
+        return waypoints.get(waypoints.size() - 1);
+    }
+
+    public Waypoint getFirstWaypoint() {
+        return waypoints.get(0);
     }
 
     //region WaypointSetBuilder helper methods
     WaypointSet() {
         waypoints = new ArrayList<Waypoint>();
-        index = 0;
+        index = 1;
     }
 
-    void add(float x, float y) {
-        waypoints.add(new Waypoint(x, y));
+    void add(float x, float y, Step step) {
+        waypoints.add(new Waypoint(x, y, step));
     }
 
     void setLastWaypoint(Waypoint lastWaypoint) {
@@ -42,6 +53,8 @@ public class WaypointSet {
     void build(float x, float y) {
         waypoints.get(waypoints.size() - 1).setX(x);
         waypoints.get(waypoints.size() - 1).setY(y);
+        waypoints.get(waypoints.size() - 1).setStep(Step.LAST);
+        index = 1;
     }
     //endregion
 }

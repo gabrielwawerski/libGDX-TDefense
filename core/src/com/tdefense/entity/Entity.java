@@ -53,7 +53,8 @@ public abstract class Entity {
     }
 
     public void setPosition(Vector2 position) {
-        this.positon = position;
+        this.positon.x = position.x;
+        this.positon.y = position.y;
     }
 
     public void addPositionX(float x) {

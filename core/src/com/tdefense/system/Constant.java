@@ -22,7 +22,7 @@ public final class Constant {
     public static final int FINAL_CODE = 8;
 
     public static final float PLAYER_MOV_SPEED = 65;
-    public static final float ENEMY_MOV_SPEED = 15;
+    public static final float ENEMY_MOV_SPEED = 120;
 
     /** {@link Logger#setLogLevel(int)}  */
     public static final int DEFAULT_LOG_LEVEL = Logger.LOG_ERROR;
