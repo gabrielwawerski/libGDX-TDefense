@@ -48,9 +48,9 @@ public class WaypointSet {
     }
 
     /**
-     * Call to set last waypoint coordinates.
+     * Call to set last waypoint coordinates and starting index.
      */
-    void build(float x, float y) {
+    void finish(float x, float y) {
         waypoints.get(waypoints.size() - 1).setX(x);
         waypoints.get(waypoints.size() - 1).setY(y);
         waypoints.get(waypoints.size() - 1).setStep(Step.LAST);

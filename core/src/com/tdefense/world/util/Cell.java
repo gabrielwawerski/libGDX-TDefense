@@ -1,8 +1,11 @@
 package com.tdefense.world.util;
 
+import com.tdefense.world.map.Tile;
+
 public class Cell {
-    private CellType cellType;
+    private Tile tile;
     private float mapX;
+    private CellType cellType;
     private float mapY;
     private int dataX;
     private int dataY;
@@ -15,12 +18,21 @@ public class Cell {
      * @param dataX x cell position in coordinate array
      * @param dataY y cell position in coordinate array
      */
-    Cell(CellType cellType, float mapX, float mapY, int dataX, int dataY) {
+    Cell(Tile tile, CellType cellType, float mapX, float mapY, int dataX, int dataY) {
+        this.tile = tile;
         this.cellType = cellType;
         this.mapX = mapX;
         this.mapY = mapY;
         this.dataX = dataX;
         this.dataY = dataY;
+    }
+
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 
     public CellType getCellType() {

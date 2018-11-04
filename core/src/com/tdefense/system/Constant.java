@@ -14,13 +14,6 @@ public final class Constant {
     /** map array y length */
     public static final int MAP_LENGTH_Y = 9;
 
-    public static final int GRASS_CODE = 0;
-    public static final int PATH_CODE = 1;
-    /** path's first cell code value */
-    public static final int START_CODE = 9;
-    /** path's last cell code value */
-    public static final int FINAL_CODE = 8;
-
     public static final float PLAYER_MOV_SPEED = 65;
     public static final float ENEMY_MOV_SPEED = 120;
 

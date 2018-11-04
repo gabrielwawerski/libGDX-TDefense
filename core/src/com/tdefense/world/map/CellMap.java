@@ -8,12 +8,13 @@ import com.tdefense.world.util.*;
 
 public class CellMap {
     private TextureAtlas tileAtlas;
-    private Tile grassTile;
-    private Tile pathTile;
     private Cell[][] cells;
     private int[][] mapData;
     private Cell startCell;
     private Cell endCell;
+
+    private Tile grassTile;
+    private Tile pathTile;
 
     private WaypointSetBuilder wBuilder;
     public WaypointSet waypointSet;
@@ -38,13 +39,18 @@ public class CellMap {
     public void draw(Batch batch) {
         for (int x = 0; x < Constant.MAP_LENGTH_X; x++) {
             for (int y = 0; y < Constant.MAP_LENGTH_Y; y++) {
-                if (cells[x][y].getCellType() == CellType.GRASS)
-                    batch.draw(grassTile.getTextureRegion(), cells[x][y].getMapX(), cells[x][y].getMapY());
-
-                if (cells[x][y].getCellType() == CellType.PATH)
-                    batch.draw(pathTile.getTextureRegion(), cells[x][y].getMapX(), cells[x][y].getMapY());
+                batch.draw(cells[x][y].getTile().getTextureRegion(),
+                        cells[x][y].getMapX(), cells[x][y].getMapY());
             }
         }
+    }
+
+    public Tile getGrassTile() {
+        return grassTile;
+    }
+
+    public Tile getPathTile() {
+        return pathTile;
     }
 
     public WaypointSet getWaypointSet() {
@@ -52,7 +58,7 @@ public class CellMap {
     }
 
     public Cell getCellAt(int x, int y) {
-        if ((x < 0 || x >= cells.length && y < 0 || y >= cells[0].length)) { // TODO check whether > length or >= length
+        if (((x < 0 || x >= cells.length) && (y < 0 || y >= cells[0].length))) { // TODO check whether > length or >= length
             String errorMessage = "Invalid arguments. Found: x: " + x + ", y: " + y;
             Logger.error(TAG, errorMessage);
             throw new IllegalArgumentException(errorMessage);

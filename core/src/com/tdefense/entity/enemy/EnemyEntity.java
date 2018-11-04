@@ -20,7 +20,8 @@ public class EnemyEntity extends Entity implements Enemy {
 
     private static int enemyId = 0;
     private static final String TAG = EnemyEntity.class.getSimpleName();
-    private static final int SAFE_DISTANCE = 5; // TODO move to constants
+    /** CAUTION: if object moves very fast, this should be increased */
+    private static final int SAFE_DISTANCE = 1; // TODO move to constants
 
     public EnemyEntity(Texture texture) {
         super(texture);
@@ -52,10 +53,10 @@ public class EnemyEntity extends Entity implements Enemy {
             positon.x = currentWaypoint.getX();
             positon.y = currentWaypoint.getY();
             currentWaypoint = waypointSet.getNextWaypoint();
-            Logger.debug("Enemy " + Integer.toString(thisId), "moving to waypoint (" + currentWaypoint.getX() / 32 + ", " + currentWaypoint.getY() / 32 + ")");
+            Logger.debug("Enemy " + Integer.toString(thisId),
+                    "moving to waypoint (" + currentWaypoint.getX() / 32 + ", " + currentWaypoint.getY() / 32 + ")");
         } else {
-            if (currentWaypoint.getStep() == Step.DOWN || currentWaypoint.getStep() == Step.LAST
-                    || currentWaypoint.getStep() == Step.FIRST) {
+            if (currentWaypoint.getStep() == Step.DOWN) {
                 subPositionY(Constant.ENEMY_MOV_SPEED * deltaTime);
             } else if (currentWaypoint.getStep() == Step.LEFT) {
                 subPositionX(Constant.ENEMY_MOV_SPEED * deltaTime);
@@ -76,7 +77,7 @@ public class EnemyEntity extends Entity implements Enemy {
         return pathTraversed;
     }
 
-    public void setPathTraversed(boolean pathTraversed) {
+    private void setPathTraversed(boolean pathTraversed) {
         this.pathTraversed = pathTraversed;
     }
 

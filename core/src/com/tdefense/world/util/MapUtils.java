@@ -26,10 +26,9 @@ public class MapUtils {
         for (int x = 0; x < mapData.length; x++) {
             for (int y = 0; y < mapData[x].length; y++) {
                 if (mapData[x][y] == 0) {
-                    cells[x][y] = new Cell(CellType.GRASS, toMap(x), toMap(y), x, y);
-                }
-                else if (mapData[x][y] != 0) {
-                    cells[x][y] = new Cell(CellType.PATH, toMap(x), toMap(y), x, y);
+                    cells[x][y] = new Cell(cellMap.getGrassTile(), CellType.GRASS, toMap(x), toMap(y), x, y);
+                } else if (mapData[x][y] != 0) {
+                    cells[x][y] = new Cell(cellMap.getPathTile(), CellType.PATH, toMap(x), toMap(y), x, y);
                 }
             }
         }

@@ -12,7 +12,7 @@ public class TDefense extends Game {
 	@Override
 	public void create () {
         Logger.setLogLevel(Logger.LOG_DEBUG);
-	    worldRenderer = new WorldRenderer(new WorldController());
+	    worldRenderer = new WorldRenderer();
 	}
 
     @Override
