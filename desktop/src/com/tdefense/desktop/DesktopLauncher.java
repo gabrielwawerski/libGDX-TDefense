@@ -13,4 +13,4 @@ public class DesktopLauncher {
 		config.resizable = false;
 		new LwjglApplication(new TDefense(), config);
 	}
-}
+}//asd
