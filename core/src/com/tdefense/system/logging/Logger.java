@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.Application;
-import com.tdefense.system.Constant;
+import com.tdefense.system.Config;
 
 /**
  * Main logging class for the project. When using in a new class, add {@code public static final String TAG} field
@@ -37,7 +37,7 @@ public final class Logger {
      *     <tr><td>{@link #LOG_INFO}</td> <td>logs all non-debug messages through</td></tr>
      *     <tr><td>{@link #LOG_DEBUG}</td> <td>logs all messages</td></tr>
      * </table>
-     * @param logLevel desired logging level, default is {@code LOG_ERROR}. See also {@link Constant#DEFAULT_LOG_LEVEL}.
+     * @param logLevel desired logging level, default is {@code LOG_ERROR}. See also {@link Config#DEFAULT_LOG_LEVEL}.
      */
     public static void setLogLevel(int logLevel) {
         Gdx.app.setLogLevel(logLevel);

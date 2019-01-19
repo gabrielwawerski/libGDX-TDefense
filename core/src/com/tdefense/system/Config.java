@@ -2,7 +2,7 @@ package com.tdefense.system;
 
 import com.tdefense.system.logging.Logger;
 
-public final class Constant {
+public final class Config {
     // window size
     public static final int WINDOW_WIDTH = 640;
     public static final int WINDOW_HEIGHT = 480;
@@ -19,4 +19,7 @@ public final class Constant {
 
     /** {@link Logger#setLogLevel(int)}  */
     public static final int DEFAULT_LOG_LEVEL = Logger.LOG_ERROR;
+
+    public static float ARCHER_TOWER_POSITION_X;
+    public static float ARCHER_TOWER_POSITION_Y;
 }

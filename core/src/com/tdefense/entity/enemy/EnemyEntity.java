@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.tdefense.entity.Enemy;
 import com.tdefense.entity.Entity;
-import com.tdefense.system.Constant;
+import com.tdefense.system.Config;
 import com.tdefense.system.logging.Logger;
 import com.tdefense.world.util.Step;
 import com.tdefense.world.util.Waypoint;
@@ -57,13 +57,13 @@ public class EnemyEntity extends Entity implements Enemy {
                     "moving to waypoint (" + currentWaypoint.getX() / 32 + ", " + currentWaypoint.getY() / 32 + ")");
         } else {
             if (currentWaypoint.getStep() == Step.DOWN) {
-                subPositionY(Constant.ENEMY_MOV_SPEED * deltaTime);
+                subPositionY(Config.ENEMY_MOV_SPEED * deltaTime);
             } else if (currentWaypoint.getStep() == Step.LEFT) {
-                subPositionX(Constant.ENEMY_MOV_SPEED * deltaTime);
+                subPositionX(Config.ENEMY_MOV_SPEED * deltaTime);
             } else if (currentWaypoint.getStep() == Step.RIGHT) {
-                addPositionX(Constant.ENEMY_MOV_SPEED * deltaTime);
+                addPositionX(Config.ENEMY_MOV_SPEED * deltaTime);
             } else if (currentWaypoint.getStep() == Step.UP) {
-                subPositionY(Constant.ENEMY_MOV_SPEED * deltaTime);
+                subPositionY(Config.ENEMY_MOV_SPEED * deltaTime);
             }
         }
     }

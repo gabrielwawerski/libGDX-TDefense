@@ -1,6 +1,6 @@
 package com.tdefense.world.util;
 
-import com.tdefense.system.Constant;
+import com.tdefense.system.Config;
 import com.tdefense.world.map.CellMap;
 
 public class MapUtils {
@@ -35,7 +35,7 @@ public class MapUtils {
     }
 
     /**
-     * Scales provided value, by {@link Constant#TILE_SCALE}, so that after transformation - the value returned to caller
+     * Scales provided value, by {@link Config#TILE_SCALE}, so that after transformation, value returned to the caller
      * represents tile position in relation to other tiles, as if it was a part of map's tile "grid". (which is not
      * a real thing in this project as of now)
      * @param value the value to be scaled
@@ -43,6 +43,6 @@ public class MapUtils {
      * @author mx
      */
     public static float toMap(float value) {
-        return value * Constant.TILE_SCALE;
+        return value * Config.TILE_SCALE;
     }
 }

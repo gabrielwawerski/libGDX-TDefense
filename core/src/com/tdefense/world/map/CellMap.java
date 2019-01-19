@@ -2,7 +2,7 @@ package com.tdefense.world.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.tdefense.system.Constant;
+import com.tdefense.system.Config;
 import com.tdefense.system.logging.Logger;
 import com.tdefense.world.util.*;
 
@@ -28,7 +28,7 @@ public class CellMap {
     }
 
     public void create() {
-        cells = new Cell[Constant.MAP_LENGTH_X][Constant.MAP_LENGTH_Y];
+        cells = new Cell[Config.MAP_LENGTH_X][Config.MAP_LENGTH_Y];
         wBuilder = new WaypointSetBuilder();
 
         mapData = MapUtils.getOrderedMapData();
@@ -37,10 +37,12 @@ public class CellMap {
     }
 
     public void draw(Batch batch) {
-        for (int x = 0; x < Constant.MAP_LENGTH_X; x++) {
-            for (int y = 0; y < Constant.MAP_LENGTH_Y; y++) {
-                batch.draw(cells[x][y].getTile().getTextureRegion(),
-                        cells[x][y].getMapX(), cells[x][y].getMapY());
+        for (int x = 0; x < Config.MAP_LENGTH_X; x++) {
+            for (int y = 0; y < Config.MAP_LENGTH_Y; y++) {
+                if (cells[x][y].getTile() instanceof RegionTile) {
+                    batch.draw(cells[x][y].getTile().getTextureRegion(),
+                            cells[x][y].getMapX(), cells[x][y].getMapY());
+                }
             }
         }
     }
