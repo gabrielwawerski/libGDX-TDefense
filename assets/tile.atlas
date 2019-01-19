@@ -18,7 +18,7 @@ grass
   orig: 32, 32
   offset: 0, 0
   index: -1
-grass2
+archer_tower
   rotate: false
   xy: 64, 0
   size: 32, 32
