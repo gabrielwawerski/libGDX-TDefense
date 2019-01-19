@@ -1,6 +1,6 @@
-package com.tdefense.system;
+package com.tdefense.system.util;
 
-import com.tdefense.system.logging.Logger;
+import com.tdefense.system.util.logging.Logger;
 
 public final class Config {
     // window size

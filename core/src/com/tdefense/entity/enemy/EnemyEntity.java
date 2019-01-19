@@ -4,10 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.tdefense.entity.Enemy;
 import com.tdefense.entity.Entity;
-import com.tdefense.system.Config;
-import com.tdefense.system.logging.Logger;
+import com.tdefense.system.util.Config;
+import com.tdefense.system.util.logging.Logger;
 import com.tdefense.world.util.Step;
 import com.tdefense.world.util.Waypoint;
 import com.tdefense.world.util.WaypointSet;
@@ -21,7 +20,7 @@ public class EnemyEntity extends Entity implements Enemy {
     private static int enemyId = 0;
     private static final String TAG = EnemyEntity.class.getSimpleName();
     /** CAUTION: if object moves very fast, this should be increased */
-    private static final int SAFE_DISTANCE = 1; // TODO move to constants
+    private static final int SAFE_DISTANCE = 2; // TODO move to constants
 
     public EnemyEntity(Texture texture) {
         super(texture);
@@ -45,7 +44,7 @@ public class EnemyEntity extends Entity implements Enemy {
         if (positon.dst(waypointSet.getLastWaypoint().getVector()) <= SAFE_DISTANCE) {
             positon.set(waypointSet.getLastWaypoint().getVector());
             setPathTraversed(true);
-            Logger.debug("Enemy " + Integer.toString(thisId), "path succesfully traversed!");
+            Logger.debug("Enemy " + thisId, "path succesfully traversed!");
             return;
         }
 
@@ -53,16 +52,18 @@ public class EnemyEntity extends Entity implements Enemy {
             positon.x = currentWaypoint.getX();
             positon.y = currentWaypoint.getY();
             currentWaypoint = waypointSet.getNextWaypoint();
-            Logger.debug("Enemy " + Integer.toString(thisId),
-                    "moving to waypoint (" + currentWaypoint.getX() / 32 + ", " + currentWaypoint.getY() / 32 + ")");
+            Logger.debug("Enemy " + thisId,
+                    "moving to waypoint (" + currentWaypoint.getX() / 32 + "," + currentWaypoint.getY() / 32 + ")");
         } else {
-            if (currentWaypoint.getStep() == Step.DOWN) {
+            Step currentStep = currentWaypoint.getStep();
+
+            if (currentStep == Step.DOWN) {
                 subPositionY(Config.ENEMY_MOV_SPEED * deltaTime);
-            } else if (currentWaypoint.getStep() == Step.LEFT) {
+            } else if (currentStep == Step.LEFT) {
                 subPositionX(Config.ENEMY_MOV_SPEED * deltaTime);
-            } else if (currentWaypoint.getStep() == Step.RIGHT) {
+            } else if (currentStep == Step.RIGHT) {
                 addPositionX(Config.ENEMY_MOV_SPEED * deltaTime);
-            } else if (currentWaypoint.getStep() == Step.UP) {
+            } else if (currentStep == Step.UP) {
                 subPositionY(Config.ENEMY_MOV_SPEED * deltaTime);
             }
         }

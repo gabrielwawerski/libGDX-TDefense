@@ -1,24 +1,27 @@
-package com.tdefense.system.logging;
+package com.tdefense.system.util.logging;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.Application;
-import com.tdefense.system.Config;
+import com.tdefense.system.util.Config;
 
 /**
- * Main logging class for the project. When using in a new class, add {@code public static final String TAG} field
- * and set it to {@code getSimpleName()} of the class.<p>
+ * Main logging class for the game. When using in a new class, add {@code public static final String TAG} field and set it
+ * to {@code getSimpleName()} of the class.
+ * <p>
  * Wraps GDX's {@link FPSLogger#log}, {@link Application#log(String, String)}, {@link Application#debug(String, String)},
- * {@link Application#error(String, String)}<p>
+ * {@link Application#error(String, String)}
+ * <p>
  * Default logging level is {@link #LOG_ERROR}, which is set in the constructor. To change the logging level, use
- * {@link #setLogLevel(int)}. You can also use second constructor to set the logging level, see {@link #Logger(int)}
+ * {@link #setLogLevel(int)}.
+ *
  * @author mx
  */
 public final class Logger {
     private static long startTime = TimeUtils.nanoTime();
-    private static final int FPS_LOGGING_INTERVAL = 1000000000;  // 1,000,000,000ns == one second
+    private static final int FPS_LOGGING_INTERVAL = 1000000000;  // 1,000,000,000ns == 1 second
 
     /** will mute all log output */
     public static final int LOG_NONE = 0;
@@ -37,7 +40,9 @@ public final class Logger {
      *     <tr><td>{@link #LOG_INFO}</td> <td>logs all non-debug messages through</td></tr>
      *     <tr><td>{@link #LOG_DEBUG}</td> <td>logs all messages</td></tr>
      * </table>
-     * @param logLevel desired logging level, default is {@code LOG_ERROR}. See also {@link Config#DEFAULT_LOG_LEVEL}.
+     *
+     * @param logLevel desired logging level, default is {@code LOG_ERROR}.
+     * @see Config#DEFAULT_LOG_LEVEL
      */
     public static void setLogLevel(int logLevel) {
         Gdx.app.setLogLevel(logLevel);
@@ -45,6 +50,7 @@ public final class Logger {
 
     /**
      * Logs message to the console or logcat.
+     *
      * @param tag calling class {@code TAG} field
      * @param message descriptive log message
      */
@@ -54,6 +60,7 @@ public final class Logger {
 
     /**
      * Logs a debug message to the console or logcat.
+     *
      * @param tag calling class {@code TAG} field
      * @param message descriptive debug message
      */
@@ -63,6 +70,7 @@ public final class Logger {
 
     /**
      * Logs an error message to the console or logcat.
+     *
      * @param tag calling class {@code TAG} field.
      * @param message descriptive error message
      */
@@ -72,6 +80,7 @@ public final class Logger {
 
     /**
      * Logs the current frames per second to the console. See {@link FPSLogger}.
+     *
      * @author mzechner
      */
     public static void logFps () {
