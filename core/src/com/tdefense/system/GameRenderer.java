@@ -15,7 +15,7 @@ public class GameRenderer implements Disposable {
     OrthographicCamera cameraGUI;
     SpriteBatch batch;
     GameController gameController;
-    private TextureRegion archerTowerGui;
+    TextureRegion archerTowerGui;
 
     private static final String TAG = GameRenderer.class.getSimpleName();
 
@@ -29,7 +29,7 @@ public class GameRenderer implements Disposable {
         cameraGUI.setToOrtho(true);
         cameraGUI.update();
 
-        gameController = new GameController(camera, cameraGUI);
+        gameController = new GameController(this);
         gameController.initialize();
         batch = new SpriteBatch();
         archerTowerGui = new TextureRegion(gameController.map.getTileAtlas().findRegion("archer_tower"));

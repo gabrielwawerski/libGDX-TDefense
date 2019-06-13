@@ -13,12 +13,12 @@ public class PlayerEntity extends Entity {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(sprite, positon.x, positon.y);
+        batch.draw(sprite, position.x, position.y);
     }
 
     @Override
     public void create() {
         sprite = new Sprite(texture);
-        positon = new Vector2();
+        position = new Vector2();
     }
 }

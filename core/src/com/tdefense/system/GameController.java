@@ -15,12 +15,13 @@ import com.tdefense.system.util.logging.Logger;
 import com.tdefense.world.map.CellMap;
 import com.tdefense.world.util.CellType;
 
+import static com.tdefense.system.util.Config.*;
+
 /**
  * Handles all logic related operations, such as updating entity_concrete positions and all other non-graphic related business.
  * {@link #update(float deltaTime)}
  */
 class GameController extends InputAdapter {
-    // resources shared with GameRenderer
     CellMap map;
     PlayerEntity player;
     EnemyEntity enemy;
@@ -33,12 +34,15 @@ class GameController extends InputAdapter {
     private boolean startEnemyMovement;
     private Vector3 touchPos;
 
+    private GameRenderer renderer;
+
     private static final String TAG = GameController.class.getSimpleName();
 
-    GameController(OrthographicCamera camera, OrthographicCamera cameraGUI) {
+    GameController(GameRenderer renderer) {
+        this.renderer = renderer;
         Gdx.input.setInputProcessor(this);
-        this.camera = camera;
-        this.cameraGUI = cameraGUI;
+        camera = renderer.camera;
+        cameraGUI = renderer.cameraGUI;
         touchPos = new Vector3();
         buyMode = false;
         startEnemyMovement = false;
@@ -92,28 +96,30 @@ class GameController extends InputAdapter {
         touchPos.x = screenX;
         touchPos.y = screenY;
         camera.unproject(touchPos);
-        touchPos.x /= Config.TILE_SCALE;
-        touchPos.y /= Config.TILE_SCALE;
 
         // if archer tower (on buy menu) touched, set buyMode
-        if ((touchPos.x >= Config.ARCHER_TOWER_POSITION_X && touchPos.x <= Config.ARCHER_TOWER_POSITION_X + 32)
-                && (touchPos.y >= Config.ARCHER_TOWER_POSITION_Y && touchPos.y <= Config.ARCHER_TOWER_POSITION_Y + 32)) {
+        if (onBuyMenu(touchPos.x, touchPos.y)) {
             buyMode = true;
             Logger.debug(TAG, "inside archer icon");
             Logger.debug(TAG, Float.toString(touchPos.x));
             Logger.debug(TAG, Float.toString(touchPos.y));
         }
 
+        // TODO move to different class?
         if (buyMode) {
             // if selected item from menu, continue else return
             // TODO add method/class that handles placing items in menus and another for checking if touchpos is on any item
-
-            if (button == Input.Buttons.LEFT && onMap(touchPos.x, touchPos.y)) {
+            if (button == Input.Buttons.LEFT && onArcherTower(touchPos.x, touchPos.y)) {
+                touchPos.x /= TILE_SCALE;
+                touchPos.y /= TILE_SCALE;
                 // wstawianie wiezy na mape
                 if (map.getCellAt((int)touchPos.x, (int)touchPos.y).getCellType() != CellType.PATH) {
                     map.getCellAt((int) touchPos.x, (int) touchPos.y).setTile(map.getArcherTower());
                     return true;
                 }
+            } else {
+                buyMode = false;
+                return true;
             }
         }
 
@@ -125,8 +131,28 @@ class GameController extends InputAdapter {
         return false;
     }
 
+    private boolean onArcherTower(float x, float y) {
+        ARCHER_TOWER_POSITION_X = renderer.archerTowerGui.getRegionX();
+        ARCHER_TOWER_POSITION_Y = renderer.archerTowerGui.getRegionY();
+
+        if ((x >= ARCHER_TOWER_POSITION_X && x <= ARCHER_TOWER_POSITION_X + renderer.archerTowerGui.getRegionWidth())
+                && (y >= ARCHER_TOWER_POSITION_Y && y <= ARCHER_TOWER_POSITION_Y + renderer.archerTowerGui.getRegionHeight())) {
+            System.out.println("found archer tower");
+            return true;
+        } else
+            return false;
+    }
+
+    private boolean onBuyMenu(float x, float y) {
+        int mapBoundsX = (int)(MAP_LENGTH_X * TILE_SCALE);
+        int mapBoundsY = (int)(MAP_LENGTH_Y * TILE_SCALE);
+        int menuBoundsX = mapBoundsX + 200;
+        int menuBoundsY = mapBoundsY + 600;
+
+        return (x >= mapBoundsX && x <= menuBoundsX) && (y >= mapBoundsY && x <= menuBoundsY);
+    }
+
     private boolean onMap(float x, float y) {
-        // TODO returns true if given coordinates aren't bigger than map size
-        return false;
+        return x <= (MAP_LENGTH_X * TILE_SCALE) && y <= (MAP_LENGTH_Y * TILE_SCALE);
     }
 }

@@ -29,28 +29,28 @@ public class EnemyEntity extends Entity implements Enemy {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(sprite, positon.x, positon.y);
+        batch.draw(sprite, position.x, position.y);
     }
 
     @Override
     public void create() {
         sprite = new Sprite(texture);
-        positon = new Vector2();
+        position = new Vector2();
         pathTraversed = false;
     }
 
     public void move(float deltaTime) {
         // if distance to last waypoint <= 5, set enemy pos to it and set pathTraversed to true; exit method
-        if (positon.dst(waypointSet.getLastWaypoint().getVector()) <= SAFE_DISTANCE) {
-            positon.set(waypointSet.getLastWaypoint().getVector());
+        if (position.dst(waypointSet.getLastWaypoint().getVector()) <= SAFE_DISTANCE) {
+            position.set(waypointSet.getLastWaypoint().getVector());
             setPathTraversed(true);
             Logger.debug("Enemy " + thisId, "path succesfully traversed!");
             return;
         }
 
-        if (positon.dst(currentWaypoint.getVector()) <= SAFE_DISTANCE) {
-            positon.x = currentWaypoint.getX();
-            positon.y = currentWaypoint.getY();
+        if (position.dst(currentWaypoint.getVector()) <= SAFE_DISTANCE) {
+            position.x = currentWaypoint.getX();
+            position.y = currentWaypoint.getY();
             currentWaypoint = waypointSet.getNextWaypoint();
             Logger.debug("Enemy " + thisId,
                     "moving to waypoint (" + currentWaypoint.getX() / 32 + "," + currentWaypoint.getY() / 32 + ")");
